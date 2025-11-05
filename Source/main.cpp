@@ -1,6 +1,6 @@
-#include "Public/Book.h"
-#include "Public/Publisher.h"
-#include "Public/System.h"
+#include "Book.h"
+#include "Publisher.h"
+#include "System.h"
 
 #include <iostream>
 
@@ -8,9 +8,12 @@ int main()
 {
     vector<string> autors;
     autors.push_back("actor");
-    Book b1 = Book("Fotnite", "asdsad", autors, Date(20,2,20), Date(21,2,21));
 
-    std::cout << b1.IsApproved();
+    Book b1 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
+    Book b2 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
+    Book b3 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
+
+    std::cout<<b1<<"\n"<<b2<<"\n"<<b3;
 
     return 0;
 }

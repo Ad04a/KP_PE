@@ -9,6 +9,9 @@ CXX := g++
 
 CXXFLAGS := -Wall -pedantic -std=c++11
 
+CPPFLAGS := -MMD
+
+INCLUDE_DIRS := -I./Source/Public
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp')
 
@@ -20,15 +23,14 @@ all: $(FINAL_EXEC) run
 
 build: $(FINAL_EXEC)
 
--include $(DEPENDS)
-
 $(FINAL_EXEC): $(OBJS)
 	$(CXX) $(OBJS) -o $(FINAL_EXEC) 
 
-# Build step for C++ source
+-include $(DEPS)
+
 $(BUILD_DIR)/%.o: %.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) $(CPPFLAGS) -c $< -o $@
 
 
 run: $(FINAL_EXEC)
@@ -36,4 +38,5 @@ run: $(FINAL_EXEC)
 
 .PHONY: clean
 clean:
-	rmdir -r $(BUILD_DIR)
+	rm -r $(BUILD_DIR)
+

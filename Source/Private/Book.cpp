@@ -1,6 +1,8 @@
-#include "../Public/Book.h"
+#include "Book.h"
 
-//Book::NumPublished = 0;
+#include "Exceptions/InvalidISBNException.h"
+
+int Book::NumPublished = 0;
 
 Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate)
 {
@@ -10,68 +12,106 @@ Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrint
     SetPrintDate(InPrintDate);
     SetReleaseDate(InReleaseDate);
     ApproveDate = Date();
+    PublishId = Book::NumPublished++;
 }
 
-string Book::GetTitle()
+string Book::GetTitle() const
 {
     return Title;
 }
 void Book::SetTitle(string InTitle)
 {
-
+    Title = InTitle;
 }
 
-string Book::GetISBN()
+string Book::GetISBN() const
 {
     return ISBN;
 }
 void Book::SetISBN(string InISBN)
 {
 
+    if(InISBN.size() != 10 && InISBN.size() != 13) throw InvalidISBNException("ISBN must be between 10 and 13 digits");
+    
+    for(unsigned int i=0; i<InISBN.size(); i++)
+    {
+        if(InISBN[i]<'0' || InISBN[i]>'9') throw InvalidISBNException("ISBN must be between 10 and 13 DIGITS");
+    }
+
+    ISBN = InISBN;
+
 }
 
-vector<string> Book::GetAuthors()
+vector<string> Book::GetAuthors() const
 {
     return Authors;
 }
 void Book::SetAuthors(vector<string> InAuthors)
 {
-
+    Authors = InAuthors;
 }
 
-int Book::GetPublishedID()
+int Book::GetPublishedID() const
 {
     return PublishId;
 }
 
-Date Book::GetPrintDate()
+Date Book::GetPrintDate() const
 {
     return PrintDate;
 }
 void Book::SetPrintDate(Date InPrintDate)
 {
-
+    PrintDate = InPrintDate;
+}
+void Book::SetPrintDate(int InYear, int InMonth, int InDay)
+{
+    SetPrintDate(Date(InYear, InMonth, InDay));
 }
 
-Date Book::GetReleaseDate()
+Date Book::GetReleaseDate() const
 {
     return ReleaseDate;
 }
 void Book::SetReleaseDate(Date InReleaseDate)
 {
-
+    ReleaseDate = InReleaseDate;
+}
+void Book::SetReleaseDate(int InYear, int InMonth, int InDay)
+{
+    SetReleaseDate(Date(InYear, InMonth, InDay));
 }
 
-Date Book::GetApproveDate()
+Date Book::GetApproveDate() const
 {
     return ApproveDate;
 }
 void Book::SetApproveDate(Date InApproveDate)
 {
-
+    ApproveDate = InApproveDate;
+}
+void Book::SetApproveDate(int InYear, int InMonth, int InDay)
+{
+    SetApproveDate(Date(InYear, InMonth, InDay));
 }
 
-bool Book::IsApproved()
+bool Book::IsApproved() const
 {
     return ApproveDate.IsValid();
+}
+
+
+ostream& operator<<(ostream& os, const Book& InBook)
+{
+    os<<InBook.Title<<" ("<<InBook.ISBN<<")[" << InBook.PublishId << "] From: ";
+    for(unsigned int i=0; i<InBook.Authors.size(); i++) os<<InBook.Authors[i]<<", ";
+    os<<"\b\b Published: "<<InBook.PrintDate<<"-"<<InBook.ReleaseDate<<" Approved: ";
+    if(InBook.IsApproved()) os<<"Yes ["<<InBook.ApproveDate<<"]";
+    else os<<"No";
+    return os;
+}
+
+istream& operator>>(istream& is, Book& OutBook)
+{
+    return is;
 }
