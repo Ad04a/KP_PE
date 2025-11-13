@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "Property.h"
 #include "Misc/Date.h"
 
 using namespace std;
@@ -9,28 +10,26 @@ using namespace std;
 class Book
 {
 
-    private:
+private:
 
     static int NumPublished;
 
-    string Title;
-    string ISBN;
     vector<string> Authors;
     int PublishId;
     Date PrintDate;
     Date ReleaseDate;
     Date ApproveDate;
 
-    public:
+public:
 
+    CPPUtils::Property<string> Title;
+    CPPUtils::Property<string> ISBN;
+
+    Book();
     Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate);
     Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate, Date InApproveDate) 
     : Book(InTitle, InISBN, InAuthors, InPrintDate, InReleaseDate){SetApproveDate(InApproveDate);}
 
-    string GetTitle() const;
-    void SetTitle(string InTitle);
-
-    string GetISBN() const;
     void SetISBN(string InISBN);
 
     vector<string> GetAuthors() const;

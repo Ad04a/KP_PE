@@ -4,10 +4,16 @@
 
 int Book::NumPublished = 0;
 
-Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate)
+Book::Book()
 {
-    SetTitle(InTitle);
-    SetISBN(InISBN);
+    Title = CPPUtils::Property<std::string>();
+    ISBN = CPPUtils::Property<std::string>();
+}
+
+Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate) : Book()
+{
+    
+    //SetISBN(InISBN);
     SetAuthors(InAuthors);
     SetPrintDate(InPrintDate);
     SetReleaseDate(InReleaseDate);
@@ -15,19 +21,6 @@ Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrint
     PublishId = Book::NumPublished++;
 }
 
-string Book::GetTitle() const
-{
-    return Title;
-}
-void Book::SetTitle(string InTitle)
-{
-    Title = InTitle;
-}
-
-string Book::GetISBN() const
-{
-    return ISBN;
-}
 void Book::SetISBN(string InISBN)
 {
 
@@ -38,7 +31,7 @@ void Book::SetISBN(string InISBN)
         if(InISBN[i]<'0' || InISBN[i]>'9') throw InvalidISBNException("ISBN must be between 10 and 13 DIGITS");
     }
 
-    ISBN = InISBN;
+    //ISBN = InISBN;
 
 }
 
@@ -103,7 +96,7 @@ bool Book::IsApproved() const
 
 ostream& operator<<(ostream& os, const Book& InBook)
 {
-    os<<InBook.Title<<" ("<<InBook.ISBN<<")[" << InBook.PublishId << "] From: ";
+    os<<InBook.Title()<<" ("<<InBook.ISBN()<<")[" << InBook.PublishId << "] From: ";
     for(unsigned int i=0; i<InBook.Authors.size(); i++) os<<InBook.Authors[i]<<", ";
     os<<"\b\b Published: "<<InBook.PrintDate<<"-"<<InBook.ReleaseDate<<" Approved: ";
     if(InBook.IsApproved()) os<<"Yes ["<<InBook.ApproveDate<<"]";

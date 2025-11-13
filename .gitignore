@@ -40,5 +40,10 @@
 # debug information files
 *.dwo
 
+#ide 
+.vs
+.vscode
+
 #ignore build folder
 /Build
+

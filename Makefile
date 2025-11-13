@@ -2,6 +2,7 @@ TARGET_EXEC := KP_PE.exe
 
 BUILD_DIR := ./Build
 SOURCE_DIR := ./Source
+PLUGIN_DIR := ./Plugins
 
 FINAL_EXEC := $(BUILD_DIR)/$(TARGET_EXEC)
 
@@ -11,7 +12,11 @@ CXXFLAGS := -Wall -pedantic -std=c++11
 
 CPPFLAGS := -MMD
 
-INCLUDE_DIRS := -I./Source/Public
+#find -type d -name '*Public'
+#INCLUDE_DIRS := -I./Source/Public
+
+INCLUDE_DIRS := $(shell find -type d -name '*Public')
+INCLUDE_FLAGS := $(addprefix -I,$(INCLUDE_DIRS))
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp')
 
@@ -30,7 +35,7 @@ $(FINAL_EXEC): $(OBJS)
 
 $(BUILD_DIR)/%.o: %.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CXXFLAGS) $(INCLUDE_DIRS) $(CPPFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE_FLAGS) $(CPPFLAGS) -c $< -o $@
 
 
 run: $(FINAL_EXEC)

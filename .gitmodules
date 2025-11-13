@@ -1,0 +1,3 @@
+[submodule "Plugins/CPP-Property-System"]
+	path = Plugins/CPP-Property-System
+	url = https://github.com/Ad04a/CPP-Property-System.git
