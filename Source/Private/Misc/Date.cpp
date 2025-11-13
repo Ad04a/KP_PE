@@ -66,13 +66,13 @@ bool Date::IsValid() const
     return !(Year == -1 || Month == -1 || Day == -1);
 }
 
-ostream& operator<<(ostream& os, const Date& InDate)
+std::ostream& operator<<(std::ostream& os, const Date& InDate)
 {
     os << InDate.Year << '/' << InDate.Month << '/' << InDate.Day;
     return os;
 }
 
-istream& operator>>(istream& is, Date& OutDate)
+std::istream& operator>>(std::istream& is, Date& OutDate)
 {
     char Slash1, Slash2;
     int Year, Month, Day;

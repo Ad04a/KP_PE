@@ -2,19 +2,21 @@
 
 #include <string>
 #include <vector>
-#include "Property.h"
+//#include "Property.h"
 #include "Misc/Date.h"
 
-using namespace std;
+//using namespace std;
 
 class Book
 {
 
 private:
 
-    static int NumPublished;
+    //static int NumPublished;
 
-    vector<string> Authors;
+    std::string ISBN;
+    std::string Title;
+    std::vector<std::string> Authors;
     int PublishId;
     Date PrintDate;
     Date ReleaseDate;
@@ -22,18 +24,18 @@ private:
 
 public:
 
-    CPPUtils::Property<string> Title;
-    CPPUtils::Property<string> ISBN;
+    //CPPUtils::Property<std::string> Title;
+    //CPPUtils::Property<std::string> ISBN;
 
     Book();
-    Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate);
-    Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate, Date InApproveDate) 
+    Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate);
+    Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate, Date InApproveDate) 
     : Book(InTitle, InISBN, InAuthors, InPrintDate, InReleaseDate){SetApproveDate(InApproveDate);}
 
-    void SetISBN(string InISBN);
+    void SetISBN(std::string InISBN);
 
-    vector<string> GetAuthors() const;
-    void SetAuthors(vector<string> InAuthors);
+    //std::vector<std::string> GetAuthors() const;
+    void SetAuthors(std::vector<std::string> InAuthors);
 
     int GetPublishedID() const;
 
@@ -50,8 +52,8 @@ public:
     void SetApproveDate(int InYear, int InMonth, int InDay);
 
     bool IsApproved() const;
-
+    /*
     friend ostream& operator<<(ostream& os, const Book& InBook);
-    friend istream& operator>>(istream& is, Book& OutBook);
+    friend istream& operator>>(istream& is, Book& OutBook);*/
 
 };

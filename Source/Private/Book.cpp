@@ -2,26 +2,36 @@
 
 #include "Exceptions/InvalidISBNException.h"
 
-int Book::NumPublished = 0;
+#include <iostream>
+
+//int Book::NumPublished = 0;
+
+// int main()
+// {
+//     cout<<"molq";
+//     return 0;
+// }
 
 Book::Book()
 {
-    Title = CPPUtils::Property<std::string>();
-    ISBN = CPPUtils::Property<std::string>();
+    Title = "";
+    ISBN = "";
+    //Title = CPPUtils::Property<std::std::string>();
+    //ISBN = CPPUtils::Property<std::std::string>();
 }
 
-Book::Book(string InTitle, string InISBN, vector<string> InAuthors, Date InPrintDate, Date InReleaseDate) : Book()
+Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate) : Book()
 {
     
     //SetISBN(InISBN);
-    SetAuthors(InAuthors);
+    //SetAuthors(InAuthors);
     SetPrintDate(InPrintDate);
     SetReleaseDate(InReleaseDate);
     ApproveDate = Date();
-    PublishId = Book::NumPublished++;
+    //PublishId = Book::NumPublished++;
 }
 
-void Book::SetISBN(string InISBN)
+void Book::SetISBN(std::string InISBN)
 {
 
     if(InISBN.size() != 10 && InISBN.size() != 13) throw InvalidISBNException("ISBN must be between 10 and 13 digits");
@@ -35,12 +45,13 @@ void Book::SetISBN(string InISBN)
 
 }
 
-vector<string> Book::GetAuthors() const
+/*std::vector<std::string> Book::GetAuthors() const
 {
     return Authors;
-}
-void Book::SetAuthors(vector<string> InAuthors)
+}*/
+void Book::SetAuthors(std::vector<std::string> InAuthors)
 {
+    cout<<"bruh";
     Authors = InAuthors;
 }
 
@@ -93,10 +104,10 @@ bool Book::IsApproved() const
     return ApproveDate.IsValid();
 }
 
-
+/*
 ostream& operator<<(ostream& os, const Book& InBook)
 {
-    os<<InBook.Title()<<" ("<<InBook.ISBN()<<")[" << InBook.PublishId << "] From: ";
+    //os<<InBook.Title()<<" ("<<InBook.ISBN()<<")[" << InBook.PublishId << "] From: ";
     for(unsigned int i=0; i<InBook.Authors.size(); i++) os<<InBook.Authors[i]<<", ";
     os<<"\b\b Published: "<<InBook.PrintDate<<"-"<<InBook.ReleaseDate<<" Approved: ";
     if(InBook.IsApproved()) os<<"Yes ["<<InBook.ApproveDate<<"]";
@@ -107,4 +118,4 @@ ostream& operator<<(ostream& os, const Book& InBook)
 istream& operator>>(istream& is, Book& OutBook)
 {
     return is;
-}
+}*/

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-using namespace std;
+//using namespace std;
 
 class Date
 {
@@ -26,6 +26,6 @@ class Date
 
     bool IsValid() const;
 
-    friend ostream& operator<<(ostream& os, const Date& InDate);
-    friend istream& operator>>(istream& is, Date& OutDate);
+    friend std::ostream& operator<<(std::ostream& os, const Date& InDate);
+    friend std::istream& operator>>(std::istream& is, Date& OutDate);
 };

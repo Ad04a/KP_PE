@@ -8,7 +8,7 @@ FINAL_EXEC := $(BUILD_DIR)/$(TARGET_EXEC)
 
 CXX := g++
 
-CXXFLAGS := -Wall -pedantic -std=c++11
+CXXFLAGS := -Wall -pedantic -std=c++20
 
 CPPFLAGS := -MMD
 
@@ -29,7 +29,7 @@ all: $(FINAL_EXEC) run
 build: $(FINAL_EXEC)
 
 $(FINAL_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $(FINAL_EXEC) 
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(FINAL_EXEC) 
 
 -include $(DEPS)
 
