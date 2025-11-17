@@ -52,7 +52,7 @@ void Book::SetISBN(std::string InISBN)
 void Book::SetAuthors(std::vector<std::string> InAuthors)
 {
     cout<<"bruh";
-    Authors = InAuthors;
+    //Authors = InAuthors;
 }
 
 int Book::GetPublishedID() const

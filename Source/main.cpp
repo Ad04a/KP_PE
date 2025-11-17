@@ -2,7 +2,7 @@
 //#include "Publisher.h"
 //#include "System.h"
 
-//#include "Property.h"
+#include "Property.h"
 
 #include <iostream>
 
