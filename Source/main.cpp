@@ -1,4 +1,4 @@
-//#include "Book.h"
+#include "Book.h"
 //#include "Publisher.h"
 //#include "System.h"
 
@@ -44,5 +44,9 @@ int main()
     std::string b = c;
     b[3] = 'I';
     std::cout<<c<<"   -   "<<b<<std::endl;
+
+    Book b1;
+    //b1.ISBN = "674206d214";
+    std::cout<<"ISBN: "<<b1.ISBN();
     return 0;
 }

@@ -15,7 +15,7 @@
 Book::Book()
 {
     Title = "";
-    ISBN = "";
+    ISBN = "0123456789";
     //Title = CPPUtils::Property<std::std::string>();
     //ISBN = CPPUtils::Property<std::std::string>();
 }
@@ -118,4 +118,13 @@ ostream& operator<<(ostream& os, const Book& InBook)
 istream& operator>>(istream& is, Book& OutBook)
 {
     return is;
+}*/
+
+/*int main()
+{
+    std::cout<<"Book main\n";
+    //Book b;
+    //b.ISBN_II = 19;
+    //std::cout<<b.ISBN_II();
+    return 0;
 }*/

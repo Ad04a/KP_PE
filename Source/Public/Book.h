@@ -2,19 +2,19 @@
 
 #include <string>
 #include <vector>
-//#include "Property.h"
+#include "Property.h"
+#include "Exceptions/InvalidISBNException.h"
+#include "Exceptions/InvalidPhoneException.h"
 #include "Misc/Date.h"
 
 //using namespace std;
 
 class Book
 {
-
+    PROPERTY_CLASS(Book)
 private:
 
     //static int NumPublished;
-
-    std::string ISBN;
     std::string Title;
     std::vector<std::string> Authors;
     int PublishId;
@@ -23,7 +23,18 @@ private:
     Date ApproveDate;
 
 public:
+    PROPERTY(std::string, ISBN, GET, 
+        PRIVATE_SET{
+            if(VALUE.size() != 10 && VALUE.size() != 13) throw InvalidISBNException("ISBN must be between 10 and 13 digits");
+    
+            for(unsigned int i=0; i<VALUE.size(); i++)
+            {
+                if(VALUE[i]<'0' || VALUE[i]>'9') throw InvalidISBNException("ISBN must be between 10 and 13 DIGITS");
+            }
 
+            FIELD = VALUE;
+        }
+    );
     //CPPUtils::Property<std::string> Title;
     //CPPUtils::Property<std::string> ISBN;
 
