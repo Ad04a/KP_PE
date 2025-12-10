@@ -1,10 +1,11 @@
 #include "Misc/Date.h"
 
-Date::Date()
+bool Date::IsLeapYear(int InYear)
 {
-    Year = 0;
-    Month = 0;
-    Day = 0;
+    if (InYear % 400 == 0) return true;
+    if (InYear % 100 == 0) return false;
+    if (InYear % 4 == 0) return true;
+    return false;
 }
 
 Date::Date(int InYear, int InMonth, int InDay)
@@ -27,5 +28,8 @@ void Date::Input()
 
 bool Date::IsValid() const
 {
-    return Year() && Month() && Day(); //some date validation
+    if(Year < 0) return false;
+    if(Month < 1 || Month > 12) return false;
+    if(Day < 1 || Day > _MaxDay) return false;
+    return true; 
 }
