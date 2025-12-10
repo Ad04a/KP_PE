@@ -9,9 +9,9 @@
 
 //using namespace std;
 
-class Book
+class Book : PROPERTY_CLASS(Book)
 {
-    PROPERTY_CLASS(Book)
+    
 private:
 
     //static int NumPublished;
