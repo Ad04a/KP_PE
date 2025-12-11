@@ -1,6 +1,9 @@
 @echo off
 setlocal
 
+
+if "%1"=="prepare" goto do_prepare
+
 if exist kp_settings.txt (
     for /f "tokens=1,2 delims==" %%A in (kp_settings.txt) do (
         set %%A=%%B
@@ -16,7 +19,6 @@ if "%1"=="" goto do_execute
 if "%1"=="build" goto do_make
 if "%1"=="clean" goto do_clean
 if "%1"=="cleanbuild" goto do_cleanbuild
-if "%1"=="prepare" goto do_prepare
 
 if "%1"=="run" goto do_run
 
@@ -62,7 +64,7 @@ goto do_run
 if exist kp_settings.txt (
     echo "Settings file (kp_settings.txt) already exists!"
 ) else (
-    echo "BASH=enter the path to your GitBash"> kp_settings.txt
+    echo "BASH=enter the path to your GitBash's exe (like C:\Program Files\Git\bin\bash.exe)"> kp_settings.txt
     echo "EXE=Build\KP_PE.exe" >> kp_settings.txt
 )
 
