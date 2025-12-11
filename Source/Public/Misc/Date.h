@@ -7,38 +7,23 @@
 
 class Date : PROPERTY_CLASS(Date), public IDisplayable, public IInputable
 {   
-    static bool IsLeapYear(int InYear);
-private:
-    bool _bIsLeapYear = false;
-    int _MaxDay = 0;
 public:
-    PROPERTY(int, Year, GET, 
-        SET
-        {
-            SELF->_bIsLeapYear = IsLeapYear(VALUE);
-            FIELD = VALUE;
-        }
-    );
-    PROPERTY(int, Month, GET, 
-        SET
-        {
-            SELF->_MaxDay = 0;
-            switch(VALUE)
-            {
-                case 2: SELF->_MaxDay = (SELF->_bIsLeapYear ? 29 : 28); break;
-                case 4: case 6: case 9: case 11: SELF->_MaxDay = 30; break;
-                default : SELF->_MaxDay = 31;
-            }
-            FIELD = VALUE;
-        }
-    );
-    PROPERTY(int, Day, GET, SET);
+    static bool IsLeapYear(int InYear);
+    static int GetDaysForMonth(int InMonth, bool bInIsLeapYear);
+    static bool IsValidYear(int InYear);
+    static bool IsValidMonth(int InMonth);
+    static bool IsValidDayForMonth(int InDay, int InMonth, bool bInIsLeapYear);
+    static Date Now();
 
-    std::string Display() const override;
-    void Input() override;
+    PROPERTY(int, Year, GET, PRIVATE_SET);
+    PROPERTY(int, Month, GET, PRIVATE_SET);
+    PROPERTY(int, Day, GET, PRIVATE_SET);
 
     Date(int InYear, int InMonth, int Day);
     Date() : Date(0, 0, 0){}
     
     bool IsValid() const;
+
+    std::string Display() const override;
+    void Input() override;
 };

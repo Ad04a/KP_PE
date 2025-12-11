@@ -45,8 +45,9 @@ int main()
     b[3] = 'I';
     std::cout<<c<<"   -   "<<b<<std::endl;
 
-    Book b1;
+    Book b1("Fortnite", "1236667770", std::vector<std::string>{"Bay", "May", "Jay"}, Date(), Date(), Date::Now());
     //b1.ISBN = "674206d214";
-    std::cout<<"ISBN: "<<b1.ISBN();
+    //std::cout<<"ISBN: "<<b1.ISBN();
+    std::cout<<b1;
     return 0;
 }
