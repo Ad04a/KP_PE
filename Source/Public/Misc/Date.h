@@ -5,7 +5,7 @@
 #include "Interfaces/Misc/Displayable.h"
 #include "Interfaces/Misc/Inputable.h"
 
-class Date : PROPERTY_CLASS(Date), public IDisplayable, public IInputable
+class Date : PROPERTY_CLASS(Date), public DataUtils::IDisplayable, public DataUtils::IInputable
 {   
 public:
     static bool IsLeapYear(int InYear);
@@ -22,8 +22,8 @@ public:
     Date(int InYear, int InMonth, int Day);
     Date() : Date(0, 0, 0){}
     
-    bool IsValid() const;
+    virtual bool IsValid() const;
 
-    std::string Display() const override;
-    void Input() override;
+    virtual std::string ToString() const;
+    virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) override;
 };

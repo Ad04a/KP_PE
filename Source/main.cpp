@@ -45,9 +45,15 @@ int main()
     b[3] = 'I';
     std::cout<<c<<"   -   "<<b<<std::endl;
 
-    Book b1("Fortnite", "1236667770", std::vector<std::string>{"Bay", "May", "Jay"}, Date(), Date(), Date::Now());
+    Book b1("Fortnite", "1236667770", std::vector<std::string>{"Bay", "May", "Jay"}, Date(), Date(), Date());
     //b1.ISBN = "674206d214";
     //std::cout<<"ISBN: "<<b1.ISBN();
-    std::cout<<b1;
+    std::cout<<"\n"<<b1.ToString() << "\n - \n";
+
+    std::cout<<b1 << " - \n";
+
+    Book::Approve(b1);
+
+    b1.Output(std::cout);
     return 0;
 }

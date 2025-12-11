@@ -1,5 +1,7 @@
 #include "Misc/Date.h"
 
+#include "Exceptions/InvalidDateException.h"
+
 bool Date::IsLeapYear(int InYear)
 {
     if (InYear % 400 == 0) return true;
@@ -36,7 +38,7 @@ bool Date::IsValidDayForMonth(int InDay, int InMonth, bool bInIsLeapYear)
 
 Date Date::Now()
 {
-    return Date(11,12,2025);
+    return Date(2025,12,11);
 }
 
 Date::Date(int InYear, int InMonth, int InDay)
@@ -51,14 +53,30 @@ bool Date::IsValid() const
     return IsValidYear(Year) && IsValidMonth(Month) && IsValidDayForMonth(Day, Month, IsLeapYear(Year)); 
 }
 
-std::string Date::Display() const
+std::string Date::ToString() const
 {
-    std::string Display = std::to_string(Year) + '.' + std::to_string(Month) + '.' + std::to_string(Day);
-    return Display;
+    std::string Out = std::to_string(Year) + '.' + std::to_string(Month) + '.' + std::to_string(Day);
+    return Out;
 }
 
-void Date::Input()
+std::istream& Date::Input(std::istream& InStream, std::ostream& FeedbackStream)
 {
+    char Slash1, Slash2;
+    int Year, Month, Day;
 
+    InStream >> Year >> Slash1 >> Month >> Slash2 >> Day;
+
+    /*if (is >> Year >> Slash1 >> Month >> Slash2 >> Day) {
+        if (Slash1 != '/' || Slash2 != '/') {
+            is.setstate(std::ios::failbit);
+        }
+    }*/
+
+    Year = Year;
+    Month= Month;
+    Day = Day;
+
+    if(IsValid() == false) throw InvalidDateException();
+
+    return InStream;
 }
-

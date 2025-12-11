@@ -9,7 +9,7 @@
 
 //using namespace std;
 
-class Book : PROPERTY_CLASS(Book), public IDisplayable, public IInputable
+class Book : PROPERTY_CLASS(Book), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable
 {
     
 private:
@@ -46,7 +46,8 @@ public:
 
     bool IsApproved() const;
 
-    std::string Display() const override;
-    void Input() override;
+    virtual std::string ToString() const override;
+    virtual std::ostream& Output(std::ostream& OutStream) const override;
+    virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) override;
 
 };

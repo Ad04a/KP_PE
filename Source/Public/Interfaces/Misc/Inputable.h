@@ -1,5 +1,11 @@
+#pragma once
 
-class IInputable
+#include "Misc/NullStream.h"
+
+namespace DataUtils
 {
-    virtual void Input() = 0;
-};
+    class IInputable
+    {
+        virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) = 0;
+    };
+}

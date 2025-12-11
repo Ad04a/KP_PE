@@ -48,17 +48,24 @@ bool Book::IsApproved() const
     return ApproveDate().IsValid();
 }
 
-std::string Book::Display() const
+std::string Book::ToString() const
 {
-    std::string Display = "Book: " + Title() + " [" + ISBN() 
-    + " - " + PrintDate().Display() + "/" + ReleaseDate().Display() +"("+ 
-    (IsApproved() ? ("Y - " + ApproveDate().Display()) : "N") +")]";
-    return Display;
+    std::string Out = "Book: " + Title() + " [" + ISBN() 
+    + " - " + PrintDate().ToString() + "/" + ReleaseDate().ToString() +"("+ 
+    (IsApproved() ? ("Y - " + ApproveDate().ToString()) : "N") +")]";
+    return Out;
 }
 
-void Book::Input()
+std::ostream& Book::Output(std::ostream& OutStream) const
 {
+    OutStream << "B " << Title() << " " << ISBN() << " " << PrintDate() << " " << ReleaseDate() << " " 
+    << (IsApproved() ? "Y "  : "N") << ( IsApproved() ? ApproveDate().ToString() : "")<< std::endl;
+    return OutStream;
+}
 
+std::istream& Book::Input(std::istream& InStream, std::ostream& FeedbackStream)
+{
+    return InStream;
 }
 
 /*

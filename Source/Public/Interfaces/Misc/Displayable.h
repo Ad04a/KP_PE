@@ -1,16 +1,18 @@
 #pragma once
 
-#include <string>
-#include <ostream>
+#include "Interfaces/Misc/Outputable.h"
+#include "Interfaces/Misc/Stringifiable.h"
 
-class IDisplayable
+namespace DataUtils
 {
-    virtual std::string Display() const = 0;
-
-    friend std::ostream& operator << (std::ostream& os, const IDisplayable &Displayable)
+    class IDisplayable : public IOutputable, public IStringifiable
     {
-        os<<Displayable.Display();
+        virtual std::string ToString() const override = 0;
 
-        return os;
-    }
-};
+        inline std::ostream& Output(std::ostream& OutStream) const override
+        {
+            OutStream << ToString();
+            return OutStream;
+        }
+    };
+}
