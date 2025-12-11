@@ -46,5 +46,6 @@
 
 #ignore build folder
 /Build
+/Intermediate
 kp_settings.txt
 

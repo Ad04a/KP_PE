@@ -1,11 +1,17 @@
 #pragma once
 
-#include "Misc/NullStream.h"
+#include "istream"
 
 namespace DataUtils
 {
     class IInputable
     {
-        virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) = 0;
+        virtual std::istream& Input(std::istream& InStream) = 0;
+
+        friend std::istream& operator>>(std::istream& InStream, IInputable& Inputable)
+        {
+            return Inputable.Input(InStream);
+        }
+
     };
 }

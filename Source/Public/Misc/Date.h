@@ -2,10 +2,11 @@
 
 #include "Property.h"
 
-#include "Interfaces/Misc/Displayable.h"
+#include "Interfaces/Misc/Outputable.h"
+#include "Interfaces/Misc/Stringifiable.h"
 #include "Interfaces/Misc/Inputable.h"
 
-class Date : PROPERTY_CLASS(Date), public DataUtils::IDisplayable, public DataUtils::IInputable
+class Date : PROPERTY_CLASS(Date), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable
 {   
 public:
     static bool IsLeapYear(int InYear);
@@ -24,6 +25,7 @@ public:
     
     virtual bool IsValid() const;
 
-    virtual std::string ToString() const;
-    virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) override;
+    virtual std::string ToString() const override;
+    virtual std::ostream& Output(std::ostream& OutStream) const override;
+    virtual std::istream& Input(std::istream& InStream) override;
 };

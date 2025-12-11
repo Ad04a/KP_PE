@@ -3,57 +3,56 @@
 //#include "System.h"
 
 #include "Property.h"
-
+#include <fstream>
+#include <filesystem>
 #include <iostream>
-
 #include <vector>
 #include <string>
 
-struct X {
-    std::vector<std::string> v;
-    void foo(std::vector<std::string> in) {
-        v = in;  // triggers template instantiation
-    }
-};
-
 int main()
 {
-    //CPPUtils::Property<std::string> s = CPPUtils::Property<std::string>();
-
-    //CPPUtils::Property<int> i = CPPUtils::Property<int>();
-
-
-    //s.Set(std::string("babag"));
-
-    //i.Set(5);
-    //i = 5;
-    //std::cout<<s();
-
-    //vector<std::string> autors;
-    //autors.push_back("actor");
-
-    //Book b1 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
-    //Book b2 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
-    //Book b3 = Book("Fotnite", "0123456789", autors, Date(20,2,20), Date(21,12,21));
-
-   // b2.Title = "babag";
-
-    //std::cout<<b1<<"\n"<<b2<<"\n"<<b3;
 
     std::string c = "babag";
     std::string b = c;
     b[3] = 'I';
     std::cout<<c<<"   -   "<<b<<std::endl;
 
-    Book b1("Fortnite", "1236667770", std::vector<std::string>{"Bay", "May", "Jay"}, Date(), Date(), Date());
+    Book b1("Fortnite", "1236667770", std::vector<std::string>{"Bay Blagoi", "May", "Jay"}, Date(35,2,2), Date(67,6,7), Date());
+    Book b2;
     //b1.ISBN = "674206d214";
     //std::cout<<"ISBN: "<<b1.ISBN();
     std::cout<<"\n"<<b1.ToString() << "\n - \n";
 
-    std::cout<<b1 << " - \n";
+    std::cout<<b1 << "\n - \n";
 
-    Book::Approve(b1);
+    //Book::Approve(b1);
 
-    b1.Output(std::cout);
+    std::cout<<b1 << "\n - \n\n\n";
+
+    Date d(6767, 6, 7), d2;
+
+    std::string IntermediateFolder = "./Intermediate/";
+    if (!std::filesystem::exists(IntermediateFolder)) std::filesystem::create_directory(IntermediateFolder);
+
+    std::ofstream f(IntermediateFolder + "input.txt");
+    f<<b1;
+    //f<<d;
+    f.close();
+
+    std::ifstream file(IntermediateFolder + "input.txt");
+    if (!file) {
+        std::cerr << "Error: cannot open file\n";
+    }
+    //cin>>b2;
+    file>>b2;
+    std::cout<<b1<<"\nBook2 ----- \n"<<b2;
+
+    /*file>>d2;
+
+    std::cout<<d<<"\n-\n"<<d2;*/
+
+    file.close();
+
+
     return 0;
 }

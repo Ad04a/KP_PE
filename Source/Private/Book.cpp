@@ -58,13 +58,47 @@ std::string Book::ToString() const
 
 std::ostream& Book::Output(std::ostream& OutStream) const
 {
-    OutStream << "B " << Title() << " " << ISBN() << " " << PrintDate() << " " << ReleaseDate() << " " 
-    << (IsApproved() ? "Y "  : "N") << ( IsApproved() ? ApproveDate().ToString() : "")<< std::endl;
+    OutStream << "B " << Title().size()<<" "<< Title() << " " << ISBN() << " " << PrintDate() << " " << ReleaseDate() << " " 
+    << (IsApproved() ? "Y "  : "N ");
+    if( IsApproved() ) OutStream << ApproveDate() << " ";
+    OutStream<<Authors().size()<<" ";
+    for(size_t i=0 ; i<Authors().size(); i++)
+    {
+        OutStream<<Authors()[i].size()<<" "<<Authors()[i]<<" ";
+    }
     return OutStream;
 }
 
-std::istream& Book::Input(std::istream& InStream, std::ostream& FeedbackStream)
+std::istream& Book::Input(std::istream& InStream)
 {
+    char ID;
+    InStream>>ID;
+    if(ID != 'B'){ std::cout<<"ID: "<<ID<<")";  return InStream;}
+    
+    int NumAuthors, ReadLenght;
+
+    InStream >> ReadLenght>>std::ws;
+    char TitleName[100];
+    InStream.read(TitleName, ReadLenght);
+    TitleName[ReadLenght] = '\0';
+    Title = std::string(TitleName);
+    
+    InStream>>ISBN()>>PrintDate()>>ReleaseDate();
+
+    InStream>>ID;
+    if(ID == 'Y') InStream>>ApproveDate();
+
+    InStream>>NumAuthors;
+    std::vector<std::string> InAuthors;
+    for(int i = 0; i<NumAuthors; i++)
+    {
+        InStream >> ReadLenght>>std::ws;
+        char AuthorName[100];
+        InStream.read(AuthorName, ReadLenght);
+        AuthorName[ReadLenght] = '\0';
+        InAuthors.push_back(std::string(AuthorName));
+    }
+    Authors = InAuthors;
     return InStream;
 }
 

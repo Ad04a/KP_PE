@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <vector>
 #include "Property.h"
 #include "Exceptions/InvalidISBNException.h"
@@ -37,7 +36,7 @@ public:
     PROPERTY(Date, ReleaseDate, GET, PRIVATE_SET);
     PROPERTY(Date, ApproveDate, GET, PRIVATE_SET);
 
-    //Book();
+    Book(){}
     Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate);
     Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate, Date InApproveDate) 
     : Book(InTitle, InISBN, InAuthors, InPrintDate, InReleaseDate){ApproveDate = InApproveDate;}
@@ -48,6 +47,6 @@ public:
 
     virtual std::string ToString() const override;
     virtual std::ostream& Output(std::ostream& OutStream) const override;
-    virtual std::istream& Input(std::istream& InStream, std::ostream& FeedbackStream = NullStream::NullOut) override;
+    virtual std::istream& Input(std::istream& InStream) override;
 
 };

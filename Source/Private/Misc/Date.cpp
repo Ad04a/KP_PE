@@ -59,12 +59,21 @@ std::string Date::ToString() const
     return Out;
 }
 
-std::istream& Date::Input(std::istream& InStream, std::ostream& FeedbackStream)
+std::ostream& Date::Output(std::ostream& OutStream) const
 {
-    char Slash1, Slash2;
-    int Year, Month, Day;
+    OutStream << "D " << Year() <<" "<< Month()<<" " << Day();
+    return OutStream;
+}
 
-    InStream >> Year >> Slash1 >> Month >> Slash2 >> Day;
+std::istream& Date::Input(std::istream& InStream)
+{
+    char ID;
+    InStream>>ID;
+    if(ID != 'D') return InStream;
+
+    int InYear, InMonth, InDay;
+
+    InStream >> InYear >> InMonth >> InDay;
 
     /*if (is >> Year >> Slash1 >> Month >> Slash2 >> Day) {
         if (Slash1 != '/' || Slash2 != '/') {
@@ -72,11 +81,11 @@ std::istream& Date::Input(std::istream& InStream, std::ostream& FeedbackStream)
         }
     }*/
 
-    Year = Year;
-    Month= Month;
-    Day = Day;
+    Year = InYear;
+    Month= InMonth;
+    Day = InDay;
 
-    if(IsValid() == false) throw InvalidDateException();
+    //if(IsValid() == false) throw InvalidDateException();
 
     return InStream;
 }
