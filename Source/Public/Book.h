@@ -3,12 +3,14 @@
 #include <vector>
 #include "Property.h"
 #include "Exceptions/InvalidISBNException.h"
+#include "Exceptions/InvalidBookException.h"
 #include "Exceptions/InvalidPhoneException.h"
 #include "Misc/Date.h"
 
+#include <iostream>
 //using namespace std;
 
-class Book : PROPERTY_CLASS(Book), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable
+class Book : PROPERTY_CLASS(Book), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
 {
     
 private:
@@ -33,8 +35,22 @@ public:
     );
     PROPERTY(std::vector<std::string>, Authors, GET, PRIVATE_SET);
     PROPERTY(Date, PrintDate, GET, PRIVATE_SET);
-    PROPERTY(Date, ReleaseDate, GET, PRIVATE_SET);
-    PROPERTY(Date, ApproveDate, GET, PRIVATE_SET);
+    PROPERTY(Date, ReleaseDate, GET, 
+        PRIVATE_SET
+        {
+            if(VALUE.IsValid() == false) return;
+            if(VALUE < SELF->PrintDate()) throw InvalidBookException("Print Date must be after release date");
+            FIELD = VALUE;
+        }
+    );
+    PROPERTY(Date, ApproveDate, GET, 
+        SET
+        {
+            if(SELF->IsApproved() || VALUE.IsValid() == false) return;
+            if(VALUE < SELF->ReleaseDate()) throw InvalidBookException("Approve Date must be after release date");
+            FIELD = VALUE;
+        }
+    );
 
     Book(){}
     Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate);
@@ -48,5 +64,6 @@ public:
     virtual std::string ToString() const override;
     virtual std::ostream& Output(std::ostream& OutStream) const override;
     virtual std::istream& Input(std::istream& InStream) override;
+    virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
 
 };

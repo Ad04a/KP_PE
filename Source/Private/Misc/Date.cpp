@@ -69,23 +69,71 @@ std::istream& Date::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
-    if(ID != 'D') return InStream;
+    if(ID != 'D') throw InvalidDateException("Invalid data format");
 
     int InYear, InMonth, InDay;
 
     InStream >> InYear >> InMonth >> InDay;
 
-    /*if (is >> Year >> Slash1 >> Month >> Slash2 >> Day) {
-        if (Slash1 != '/' || Slash2 != '/') {
-            is.setstate(std::ios::failbit);
-        }
-    }*/
-
     Year = InYear;
     Month= InMonth;
     Day = InDay;
 
-    //if(IsValid() == false) throw InvalidDateException();
+    if(IsValid() == false) throw InvalidDateException("Invalid data value");
 
     return InStream;
+}
+
+void Date::Enter(std::istream& InStream, std::ostream& OutStream)
+{
+    
+    int InYear, InMonth, InDay;
+    
+    OutStream<<"Year: ";
+    InStream>>InYear;
+    while(IsValidYear(InYear) == false)
+    {
+        OutStream<<"Year must be greater than 0!\nYear: ";
+        InStream>>InYear;
+    }
+
+    OutStream<<"Month: ";
+    InStream>>InMonth;
+    while(IsValidMonth(InMonth) == false)
+    {
+        OutStream<<"Month must be between 1 and 12!\nMonth: ";
+        InStream>>InMonth;
+    }
+
+    OutStream<<"Day: ";
+    InStream>>InDay;
+    while(IsValidDayForMonth(InDay, InMonth, IsLeapYear(InYear)) == false)
+    {
+        OutStream<<"Day must be between 1 and "<<GetDaysForMonth(InMonth, IsLeapYear(InYear))<<"!\nDay: ";
+        InStream>>InDay;
+    }
+    
+    Year = InYear;
+    Month = InMonth;
+    Day = InDay;
+}
+
+bool Date::operator>( const Date& b) const
+{
+    return (Year() >= b.Year()) && (Month() >= b.Month()) && (Day() > b.Day());
+}
+
+bool Date::operator<(const Date& b) const
+{
+    return (Year() <= b.Year()) && (Month() <= b.Month()) && (Day() < b.Day());
+}
+
+bool Date::operator==(const Date& b) const
+{
+    return (Year() == b.Year()) && (Month() == b.Month()) && (Day() == b.Day());
+}
+
+bool Date::operator!=(const Date& b) const
+{
+    return !(*this == b);
 }

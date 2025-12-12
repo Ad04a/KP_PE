@@ -5,8 +5,9 @@
 #include "Interfaces/Misc/Outputable.h"
 #include "Interfaces/Misc/Stringifiable.h"
 #include "Interfaces/Misc/Inputable.h"
+#include "Interfaces/Misc/Enterable.h"
 
-class Date : PROPERTY_CLASS(Date), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable
+class Date : PROPERTY_CLASS(Date), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
 {   
 public:
     static bool IsLeapYear(int InYear);
@@ -28,4 +29,11 @@ public:
     virtual std::string ToString() const override;
     virtual std::ostream& Output(std::ostream& OutStream) const override;
     virtual std::istream& Input(std::istream& InStream) override;
+    virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
+
+    
+    bool operator>(const Date& b) const;
+    bool operator<(const Date& b) const;
+    bool operator==(const Date& b) const;
+    bool operator!=(const Date& b) const;
 };

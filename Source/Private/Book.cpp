@@ -1,31 +1,6 @@
 #include "Book.h"
 
-#include "Exceptions/InvalidISBNException.h"
-
-#include <iostream>
-
-//int Book::NumPublished = 0;
-
-// int main()
-// {
-//     cout<<"molq";
-//     return 0;
-// }
-
-/*Book::Book()
-{
-    Title = "";
-    ISBN = "";
-    //Title = CPPUtils::Property<std::std::string>();
-    //ISBN = CPPUtils::Property<std::std::string>();
-}*/
-
-bool Book::Approve(Book& InBook)
-{
-    if(InBook.IsApproved()) return false;
-    InBook.ApproveDate = Date::Now();
-    return true;
-}
+#include <limits>
 
 Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate)
 {
@@ -35,7 +10,6 @@ Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InA
     PrintDate = InPrintDate;
     ReleaseDate = InReleaseDate;
     ApproveDate = Date();
-    //PublishId = Book::NumPublished++;
 }
 
 int Book::GetPublishedID() const
@@ -73,7 +47,7 @@ std::istream& Book::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
-    if(ID != 'B'){ std::cout<<"ID: "<<ID<<")";  return InStream;}
+    if(ID != 'B') throw InvalidBookException("Invalid data format");
     
     int NumAuthors, ReadLenght;
 
@@ -82,8 +56,10 @@ std::istream& Book::Input(std::istream& InStream)
     InStream.read(TitleName, ReadLenght);
     TitleName[ReadLenght] = '\0';
     Title = std::string(TitleName);
-    
-    InStream>>ISBN()>>PrintDate()>>ReleaseDate();
+    std::string InISBN;
+    InStream>>InISBN>>PrintDate()>>ReleaseDate();
+
+    ISBN = InISBN;
 
     InStream>>ID;
     if(ID == 'Y') InStream>>ApproveDate();
@@ -99,30 +75,88 @@ std::istream& Book::Input(std::istream& InStream)
         InAuthors.push_back(std::string(AuthorName));
     }
     Authors = InAuthors;
+
     return InStream;
 }
 
-/*
-ostream& operator<<(ostream& os, const Book& InBook)
+void Book::Enter(std::istream& InStream, std::ostream& OutStream)
 {
-    //os<<InBook.Title()<<" ("<<InBook.ISBN()<<")[" << InBook.PublishId << "] From: ";
-    for(unsigned int i=0; i<InBook.Authors.size(); i++) os<<InBook.Authors[i]<<", ";
-    os<<"\b\b Published: "<<InBook.PrintDate<<"-"<<InBook.ReleaseDate<<" Approved: ";
-    if(InBook.IsApproved()) os<<"Yes ["<<InBook.ApproveDate<<"]";
-    else os<<"No";
-    return os;
+    OutStream<<"Enter book's name: ";
+    std::getline(InStream, Title());
+    std::string TempString;
+    while(true)
+    {
+        try
+        {
+            OutStream<<"Enter book's ISBN: ";
+            std::getline(InStream, TempString);
+            ISBN = TempString;
+        }
+        catch(const std::runtime_error& Error)
+        {   
+            OutStream<<Error.what()<<"\n"; continue;
+        } 
+        break;   
+    }
+    OutStream<<"Enter book's print date: \n";
+    PrintDate().Enter(InStream, OutStream);
+
+    while(true)
+    {
+        try
+        {
+            OutStream<<"Enter book's release date: \n";
+            Date d = Date();
+            d.Enter(InStream, OutStream);
+            ReleaseDate = d;
+        }
+        catch(const std::runtime_error& Error)
+        {   
+            OutStream<<Error.what()<<"\n"; continue;
+        } 
+        break;   
+    }
+
+    unsigned char Approve;
+    OutStream<<"Is the book approved (Y/N): ";
+    InStream >> Approve;
+    if(Approve >= 'a') Approve-=('a' - 'A');
+    while(Approve!='Y' && Approve!='N')
+    {
+        OutStream<<"Only Y and N: ";
+        InStream >> Approve;
+    }
+    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    if(Approve == 'y')
+    {
+        while(true)
+        {
+            try
+            {
+                OutStream<<"Enter book's Approve date: \n";
+                Date d = Date();
+                d.Enter(InStream, OutStream);
+                ApproveDate = d;
+            }
+            catch(const std::runtime_error& Error)
+            {   
+                OutStream<<Error.what()<<"\n"; continue;
+            } 
+            break;   
+        }
+    }
+
+    OutStream<<"Enter number of authors: ";
+    int NumAuthors;
+    InStream>>NumAuthors;
+    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::vector<std::string> InAuthors;
+    for(int i=0; i<NumAuthors; i++)
+    {
+        OutStream<<"Enter authors number "<<i+1<<": ";
+        std::getline(InStream, TempString);
+        InAuthors.push_back(TempString);
+    }
+    Authors = InAuthors;
 }
-
-istream& operator>>(istream& is, Book& OutBook)
-{
-    return is;
-}*/
-
-/*int main()
-{
-    std::cout<<"Book main\n";
-    //Book b;
-    //b.ISBN_II = 19;
-    //std::cout<<b.ISBN_II();
-    return 0;
-}*/
