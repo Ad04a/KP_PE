@@ -13,10 +13,12 @@ namespace PublisherUtils
     {
         friend Publisher;
 
+    private:
+        BookRegistry(){};
+        BookRegistry(std::set<BookEntry> InRegistry);
+
     public:
         PROPERTY(std::set<BookEntry>, Registry, GET, PRIVATE_SET);
-
-        BookRegistry();
         
         virtual std::string ToString() const override;
         virtual std::ostream& Output(std::ostream& OutStream) const override;

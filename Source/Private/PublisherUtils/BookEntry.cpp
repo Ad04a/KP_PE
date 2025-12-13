@@ -13,17 +13,45 @@ std::string PublisherUtils::BookEntry::ToString() const
 
 std::ostream& PublisherUtils::BookEntry::Output(std::ostream& OutStream) const
 {
+    OutStream << "E "<<HeldBook()<<" "<<Price<<" ";
     return OutStream;
 }
 
 std::istream& PublisherUtils::BookEntry::Input(std::istream& InStream)
 {
+    char ID;
+    InStream>>ID;
+    if(ID != 'E') throw InvalidBookEntryException("Invalid data format");
+    
+    
+    float InPrice;
+
+    InStream>>HeldBook()>> InPrice;
+    Price = InPrice;
+
     return InStream;
 }
 
 void PublisherUtils::BookEntry::Enter(std::istream& InStream, std::ostream& OutStream)
 {
+    OutStream<<"Enter the new book:\n";
+    HeldBook().Enter(InStream, OutStream);
 
+    while(true)
+    {
+        try
+        {
+            OutStream<<"Enter the new book's price:";
+            float InPrice;
+            InStream >> InPrice;
+            Price = InPrice;
+        }
+        catch(const std::runtime_error& Error)
+        {   
+            OutStream<<Error.what()<<"\n"; continue;
+        } 
+        break;   
+    }
 }
 
 bool PublisherUtils::BookEntry::operator<(const BookEntry& Other) const {

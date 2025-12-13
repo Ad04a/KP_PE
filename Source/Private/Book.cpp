@@ -27,9 +27,8 @@ std::string Book::ToString() const
 
 std::ostream& Book::Output(std::ostream& OutStream) const
 {
-    OutStream << "B " << Title().size()<<" "<< Title() << " " << ISBN() << " " << PrintDate() << " " << ReleaseDate() << " " 
-    << (IsApproved() ? "Y "  : "N ");
-    if( IsApproved() ) OutStream << ApproveDate() << " ";
+    OutStream << "B " << Title().size()<<" "<< Title() << " " << ISBN() << " " << PrintDate() << ReleaseDate() << (IsApproved() ? "Y "  : "N ");
+    if( IsApproved() ) OutStream << ApproveDate();
     OutStream<<Authors().size()<<" ";
     for(size_t i=0 ; i<Authors().size(); i++)
     {

@@ -34,7 +34,7 @@ int main()
     std::string IntermediateFolder = "./Intermediate/";
     if (!std::filesystem::exists(IntermediateFolder)) std::filesystem::create_directory(IntermediateFolder);
 
-    //b1.Enter(std::cin, std::cout);
+    b1.Enter(std::cin, std::cout);
 
     std::ofstream f(IntermediateFolder + "input.txt");
     f<<b1;

@@ -61,7 +61,7 @@ std::string Date::ToString() const
 
 std::ostream& Date::Output(std::ostream& OutStream) const
 {
-    OutStream << "D " << Year() <<" "<< Month()<<" " << Day();
+    OutStream << "D " << Year() <<" "<< Month()<<" " << Day()<<" ";
     return OutStream;
 }
 

@@ -20,11 +20,11 @@ public:
     PROPERTY(std::string, Title, GET, PRIVATE_SET);
     PROPERTY(std::string, ISBN, GET, 
         PRIVATE_SET{
-            if(VALUE.size() != 10 && VALUE.size() != 13) throw InvalidISBNException("ISBN must be between 10 and 13 digits");
+            if(VALUE.size() != 10 && VALUE.size() != 13) throw InvalidISBNException("ISBN must be 10 or 13 digits");
     
             for(unsigned int i=0; i<VALUE.size(); i++)
             {
-                if(VALUE[i]<'0' || VALUE[i]>'9') throw InvalidISBNException("ISBN must be between 10 and 13 DIGITS");
+                if(VALUE[i]<'0' || VALUE[i]>'9') throw InvalidISBNException("ISBN must be 10 ot 13 DIGITS");
             }
 
             FIELD = VALUE;

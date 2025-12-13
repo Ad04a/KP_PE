@@ -2,6 +2,8 @@
 
 #include "Book.h"
 
+#include "Exceptions/InvalidBookEntryException.h"
+
 class BookRegistry;
 
 namespace PublisherUtils
@@ -10,12 +12,20 @@ namespace PublisherUtils
     class BookEntry : PROPERTY_CLASS(BookEntry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
     {
         friend BookRegistry;
+    
+    private:
+        BookEntry(){};
+        BookEntry(Book InHeldBook, float InPrice);
 
     public:
         PROPERTY(Book, HeldBook, GET, PRIVATE_SET);
-        PROPERTY(float, Price, GET, PRIVATE_SET);    
-
-        BookEntry(Book InHeldBook, float InPrice);
+        PROPERTY(float, Price, GET, 
+            PRIVATE_SET
+            {
+                if(VALUE <= -1) throw InvalidBookEntryException("Book's price must be >= 0");
+                FIELD = VALUE;
+            }
+        );    
         
         virtual std::string ToString() const override;
         virtual std::ostream& Output(std::ostream& OutStream) const override;
