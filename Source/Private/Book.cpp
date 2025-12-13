@@ -12,11 +12,6 @@ Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InA
     ApproveDate = Date();
 }
 
-int Book::GetPublishedID() const
-{
-    return PublishId;
-}
-
 bool Book::IsApproved() const
 {
     return ApproveDate().IsValid();
@@ -159,4 +154,11 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
         InAuthors.push_back(TempString);
     }
     Authors = InAuthors;
+}
+
+bool Book::operator<(const Book& Other) const
+{
+    if (Title() != Other.Title())
+        return Title() < Other.Title();
+    return ISBN() < Other.ISBN();
 }

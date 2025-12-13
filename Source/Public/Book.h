@@ -12,9 +12,6 @@
 
 class Book : PROPERTY_CLASS(Book), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
 {
-    
-private:
-    int PublishId;
 
 public:
 
@@ -57,13 +54,13 @@ public:
     Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate, Date InApproveDate) 
     : Book(InTitle, InISBN, InAuthors, InPrintDate, InReleaseDate){ApproveDate = InApproveDate;}
 
-    int GetPublishedID() const;
-
     bool IsApproved() const;
 
     virtual std::string ToString() const override;
     virtual std::ostream& Output(std::ostream& OutStream) const override;
     virtual std::istream& Input(std::istream& InStream) override;
     virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
+
+    bool operator<(const Book& Other) const;
 
 };

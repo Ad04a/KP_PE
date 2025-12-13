@@ -1,5 +1,5 @@
-#include "Book.h"
-//#include "Publisher.h"
+//#include "Book.h"
+#include "Publisher.h"
 //#include "System.h"
 
 #include "Property.h"
@@ -34,7 +34,7 @@ int main()
     std::string IntermediateFolder = "./Intermediate/";
     if (!std::filesystem::exists(IntermediateFolder)) std::filesystem::create_directory(IntermediateFolder);
 
-    b1.Enter(std::cin, std::cout);
+    //b1.Enter(std::cin, std::cout);
 
     std::ofstream f(IntermediateFolder + "input.txt");
     f<<b1;
@@ -55,6 +55,7 @@ int main()
 
     file.close();
 
+    Publisher pub = Publisher("Publisher", "Nqkude v sofia", "0888666495");
 
     return 0;
 }

@@ -2,37 +2,44 @@
 
 #include <string>
 #include <map>
+#include <regex>
 
-#include "Book.h"
+#include "Exceptions/InvalidPhoneException.h"
 
-using namespace std;
+#include "PublisherUtils/BookRegistry.h"
 
-class Publisher
+class Publisher : PROPERTY_CLASS(Publisher), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
 {
 
-    private:
+public:
 
-    string Name;
-    string Address;
-    string Phone;
-    //vector<Book, float> Books;
+    PROPERTY(std::string, Name, GET, PRIVATE_SET);
+    PROPERTY(std::string, Address, GET, PRIVATE_SET);
+    PROPERTY(std::string, Phone, GET, 
+        PRIVATE_SET
+        {
+            const std::regex bgPhoneRegex(R"(^(?:\+359|00359|0)(?:87|88|89|98|99|2|32|52|56|64|66)\d{7}$)");
 
-    public:
+            if(std::regex_match(VALUE, bgPhoneRegex) == false) throw InvalidPhoneException("Phone must be valid Bulgarian phone number");
+        }
+        FIELD = VALUE;
+    );
 
-    Publisher(string InName, string InAddress, string InPhone);
-    //Publisher(string InName, string InAddress, string InPhone, map<Book,float> Books) : Publisher(InName, InAddress, InPhone) {SetBooks(InBooks);};
+    PROPERTY(PublisherUtils::BookRegistry, Books, GET, PRIVATE_SET);
 
-    string GetName();
-    void SetName();
-    string GetAddress();
-    void SetAddress();
-    string GetPhone();
-    void SetPhone();
-    map<Book, float> GetBooks();
+
+    Publisher(std::string InName, std::string InAddress, std::string InPhone);
+    Publisher(std::string InName, std::string InAddress, std::string InPhone, PublisherUtils::BookRegistry InBooks) : Publisher(InName, InAddress, InPhone) {Books = InBooks;};
+
+    std::map<Book, float> GetBooks();
     //void SetBooks(map<Book, int> InBooks);
     void AddBook(Book InBook, float InPrice);
     void ClearBooks();
 
     float MakeOrder();
 
+    virtual std::string ToString() const override;
+    virtual std::ostream& Output(std::ostream& OutStream) const override;
+    virtual std::istream& Input(std::istream& InStream) override;
+    virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
 };
