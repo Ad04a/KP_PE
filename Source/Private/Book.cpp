@@ -19,9 +19,9 @@ bool Book::IsApproved() const
 
 std::string Book::ToString() const
 {
-    std::string Out = "Book: " + Title() + " [" + ISBN() 
-    + " - " + PrintDate().ToString() + "/" + ReleaseDate().ToString() +"("+ 
-    (IsApproved() ? ("Y - " + ApproveDate().ToString()) : "N") +")]";
+    std::string Out = Title() + " [ISBN:" + ISBN() 
+    + " - Print: " + PrintDate().ToString() + " / Release: " + ReleaseDate().ToString() +" ("+ 
+    (IsApproved() ? ("Approved: " + ApproveDate().ToString()) : "Not approved yet") +")]";
     return Out;
 }
 
@@ -75,7 +75,7 @@ std::istream& Book::Input(std::istream& InStream)
 
 void Book::Enter(std::istream& InStream, std::ostream& OutStream)
 {
-    OutStream<<"Enter book's name: ";
+    OutStream<<"Enter book's title: ";
     InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(InStream, Title());
 
@@ -144,6 +144,11 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
     OutStream<<"Enter number of authors: ";
     int NumAuthors;
     InStream>>NumAuthors;
+    while(NumAuthors <= 0)
+    {
+        OutStream<<"Number of authors must be atleat 1: ";
+        InStream>>NumAuthors;
+    }
     InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::vector<std::string> InAuthors;
     for(int i=0; i<NumAuthors; i++)

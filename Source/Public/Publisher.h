@@ -11,6 +11,8 @@ class Publisher : PROPERTY_CLASS(Publisher), public DataUtils::IOutputable, publ
 
 public:
 
+    PROPERTY(int, hui, GET{return 5;});
+
     PROPERTY(std::string, Name, GET, PRIVATE_SET);
     PROPERTY(std::string, Address, GET, PRIVATE_SET);
     PROPERTY(std::string, Phone, GET, 
@@ -25,7 +27,7 @@ public:
 
     PROPERTY(PublisherUtils::BookRegistry, Books, GET, PRIVATE_SET);
 
-
+    Publisher(){}
     Publisher(std::string InName, std::string InAddress, std::string InPhone);
     Publisher(std::string InName, std::string InAddress, std::string InPhone, PublisherUtils::BookRegistry InBooks) : Publisher(InName, InAddress, InPhone) {Books = InBooks;};
 

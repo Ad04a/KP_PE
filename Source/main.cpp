@@ -16,7 +16,7 @@ int main()
 
     //b1.Enter(std::cin, std::cout);
 
-    PublisherUtils::BookRegistry br, br2;
+    Publisher br, br2;
     br.Enter(std::cin, std::cout);
 
     std::ofstream f(IntermediateFolder + "input.txt");
@@ -31,7 +31,7 @@ int main()
     file>>br2;
     file.close();
 
-    std::cout<<br<<"\nRegistry after read ----- \n"<<br2<<"\n";
+    std::cout<<br<<"\nRegistry after read ----- \n"<<br2<<"\n\n\n"<<br2.ToString();
 
     //Publisher pub = Publisher("Publisher", "Nqkude v sofia", "0888666495");
 
