@@ -9,6 +9,8 @@
 //#include <vector>
 //#include <string>
 
+#include "UI/MenuOption.h"
+#include "Misc/Delegate.h"
 
 void EnterPublisher()
 {
@@ -37,8 +39,10 @@ void HandlePublisherState(std::string PublisherName, std::istream& InStream, std
     std::cout<<PublisherName;*/
 }
 
-int main(int argc, char* argv[])
+int main()
 {
+
+    Delegate d;
 
     System::BookStoreHandler b;
     System::PublisherHandler p;
@@ -53,13 +57,7 @@ int main(int argc, char* argv[])
     //ManaginSystem.Dispatch("option", std::cin, std::cout);
     
 
-    if(argc <= 1)
-    {
-        ManaginSystem.Dispatch("store", std::cin, std::cout);
-        return 0;
-    }
-
-    std::cout << argv[2];
+    UI::MenuOption Back;
     
 
     //b1.Enter(std::cin, std::cout);
