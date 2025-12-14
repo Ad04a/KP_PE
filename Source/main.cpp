@@ -1,26 +1,74 @@
-//#include "Book.h"
+
 #include "Publisher.h"
-//#include "System.h"
 
-#include "Property.h"
-#include <fstream>
-#include <filesystem>
+//#include "Property.h"
+#include "System/Dispatcher.h"
+#include "System/SystemHandlers.h"
+
 #include <iostream>
-#include <vector>
-#include <string>
+//#include <vector>
+//#include <string>
 
-int main()
+
+void EnterPublisher()
 {
-    std::string IntermediateFolder = "./Intermediate/";
-    if (!std::filesystem::exists(IntermediateFolder)) std::filesystem::create_directory(IntermediateFolder);
+
+}
+
+void RegisterNewPublisher()
+{
+
+}
+
+void HandlePublisherState(std::string PublisherName, std::istream& InStream, std::ostream& OutStream)
+{
+    /*if (!std::filesystem::exists(PublisherFolder + PublisherName + ".txt"))
+    {
+        std::cout<<"Publisher: "+PublisherName+" does not exist! Do you wish to crerate it (Y/N)";
+        unsigned char Approve;
+        InStream >> Approve;
+        if(Approve >= 'a') Approve-=('a' - 'A');
+        while(Approve!='Y' && Approve!='N')
+        {
+            OutStream<<"Only Y and N: ";
+            InStream >> Approve;
+        }
+    } 
+    std::cout<<PublisherName;*/
+}
+
+int main(int argc, char* argv[])
+{
+
+    System::BookStoreHandler b;
+    System::PublisherHandler p;
+    System::RegistryHandler r;
+
+    System::Dispatcher ManaginSystem;
+
+    ManaginSystem.AddOption("registry", r);
+    ManaginSystem.AddOption("publisher", p);
+    ManaginSystem.AddOption("store", b);
+
+    //ManaginSystem.Dispatch("option", std::cin, std::cout);
+    
+
+    if(argc <= 1)
+    {
+        ManaginSystem.Dispatch("store", std::cin, std::cout);
+        return 0;
+    }
+
+    std::cout << argv[2];
+    
 
     //b1.Enter(std::cin, std::cout);
 
     Publisher br, br2;
-    br.Enter(std::cin, std::cout);
+    //br.Enter(std::cin, std::cout);
 
-    std::ofstream f(IntermediateFolder + "input.txt");
-    f<<br;
+    /*std::ofstream f(IntermediateFolder + "input.txt");
+    //f<<br;
     f.close();
 
     std::ifstream file(IntermediateFolder + "input.txt");
@@ -28,12 +76,12 @@ int main()
         std::cerr << "Error: cannot open file\n";
     }
     
-    file>>br2;
+    //file>>br2;
     file.close();
 
     std::cout<<br<<"\nRegistry after read ----- \n"<<br2<<"\n\n\n"<<br2.ToString();
 
-    //Publisher pub = Publisher("Publisher", "Nqkude v sofia", "0888666495");
+    //Publisher pub = Publisher("Publisher", "Nqkude v sofia", "0888666495");*/
 
     return 0;
 }

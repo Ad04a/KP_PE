@@ -48,7 +48,11 @@ exit /b
 
 :do_run
 if exist "%EXE%" (
-    "%EXE%"
+    if "%2" == "" (
+        "%EXE%"
+    ) else (
+        "%EXE%" "%2"
+    )
 ) else (
     echo Executable not found: %EXE%
     echo Try: kp build
