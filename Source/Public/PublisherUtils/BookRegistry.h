@@ -4,20 +4,16 @@
 
 #include "PublisherUtils/BookEntry.h"
 
-class Publisher;
-
 namespace PublisherUtils
 {
     
     class BookRegistry : PROPERTY_CLASS(BookRegistry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
     {
-        friend Publisher;
 
-    private:
+    public:
         BookRegistry(){};
         BookRegistry(std::set<BookEntry> InRegistry);
 
-    public:
         PROPERTY(std::set<BookEntry>, Registry, GET, PRIVATE_SET);
         
         virtual std::string ToString() const override;

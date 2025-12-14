@@ -13,7 +13,7 @@ std::string PublisherUtils::BookEntry::ToString() const
 
 std::ostream& PublisherUtils::BookEntry::Output(std::ostream& OutStream) const
 {
-    OutStream << "E "<<HeldBook()<<" "<<Price<<" ";
+    OutStream << "E "<<HeldBook()<<Price<<" ";
     return OutStream;
 }
 
@@ -34,7 +34,6 @@ std::istream& PublisherUtils::BookEntry::Input(std::istream& InStream)
 
 void PublisherUtils::BookEntry::Enter(std::istream& InStream, std::ostream& OutStream)
 {
-    OutStream<<"Enter the new book:\n";
     HeldBook().Enter(InStream, OutStream);
 
     while(true)

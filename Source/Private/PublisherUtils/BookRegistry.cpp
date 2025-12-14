@@ -36,10 +36,10 @@ std::istream& PublisherUtils::BookRegistry::Input(std::istream& InStream)
     
     int NumBooks;
     InStream>>NumBooks;
-    Book TempBook;
     std::set<BookEntry> TempRegistry;
     for(int i=0 ; i<NumBooks; i++)
     {
+        BookEntry TempBook;
         InStream>>TempBook;
         TempRegistry.insert(TempBook);
     }
@@ -50,33 +50,22 @@ std::istream& PublisherUtils::BookRegistry::Input(std::istream& InStream)
 void PublisherUtils::BookRegistry::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     int NumBooks;
-    OutStream<<"Enter number of books to be entered: ";
+    OutStream<<"Number of books to be entered: ";
     InStream>>NumBooks;
     while(NumBooks < 0)
     {
         OutStream<<"Number of books must be >= 0 : ";
         InStream>>NumBooks;
     }
-
-    Book TempBook;
+    
     std::set<BookEntry> TempRegistry;
     for(int i=0 ; i<NumBooks; i++)
     {
-        while(true)
-        {
-            try
-            {
-                InStream>>TempBook;
-            }
-            catch(const std::runtime_error& Error)
-            {   
-                OutStream<<Error.what()<<"\n"; continue;
-            } 
-            
-            TempRegistry.insert(TempBook);
-            break;   
-        }
+        BookEntry TempBook;
+        OutStream<<"Enter book number "<<i+1<<":\n";
+        TempBook.Enter(InStream, OutStream);
+        TempRegistry.insert(TempBook);    
     }
-
+    Registry = TempRegistry;
    
 }

@@ -76,7 +76,9 @@ std::istream& Book::Input(std::istream& InStream)
 void Book::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     OutStream<<"Enter book's name: ";
+    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(InStream, Title());
+
     std::string TempString;
     while(true)
     {
@@ -120,9 +122,7 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
         OutStream<<"Only Y and N: ";
         InStream >> Approve;
     }
-    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    if(Approve == 'y')
+    if(Approve == 'Y')
     {
         while(true)
         {
@@ -148,7 +148,7 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
     std::vector<std::string> InAuthors;
     for(int i=0; i<NumAuthors; i++)
     {
-        OutStream<<"Enter authors number "<<i+1<<": ";
+        OutStream<<"Enter the name of author number "<<i+1<<": ";
         std::getline(InStream, TempString);
         InAuthors.push_back(TempString);
     }

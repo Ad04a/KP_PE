@@ -36,7 +36,9 @@ public:
         PRIVATE_SET
         {
             if(VALUE.IsValid() == false) return;
-            if(VALUE < SELF->PrintDate()) throw InvalidBookException("Print Date must be after release date");
+            if(VALUE < SELF->PrintDate()) 
+                throw InvalidBookException
+                ("Release Date must be after print date(" + SELF->PrintDate().ToString()+")");
             FIELD = VALUE;
         }
     );
@@ -44,7 +46,9 @@ public:
         SET
         {
             if(SELF->IsApproved() || VALUE.IsValid() == false) return;
-            if(VALUE < SELF->ReleaseDate()) throw InvalidBookException("Approve Date must be after release date");
+            if(VALUE < SELF->ReleaseDate()) 
+                throw InvalidBookException
+                ("Approve Date must be after release date("+SELF->ReleaseDate().ToString()+")");
             FIELD = VALUE;
         }
     );

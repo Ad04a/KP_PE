@@ -4,20 +4,17 @@
 
 #include "Exceptions/InvalidBookEntryException.h"
 
-class BookRegistry;
 
 namespace PublisherUtils
 {
     
     class BookEntry : PROPERTY_CLASS(BookEntry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
     {
-        friend BookRegistry;
     
-    private:
+    public:
         BookEntry(){};
         BookEntry(Book InHeldBook, float InPrice);
 
-    public:
         PROPERTY(Book, HeldBook, GET, PRIVATE_SET);
         PROPERTY(float, Price, GET, 
             PRIVATE_SET
