@@ -14,6 +14,7 @@ namespace UI
         PROPERTY(std::vector<MenuOption>, Options, GET, SET);
         PROPERTY(MenuOption, Back, GET, PRIVATE_SET);
 
+        Menu() : Menu("Empty Menu", {}, MenuOption("Back")){}
         Menu(std::string InLabel) : Menu(InLabel, {}, MenuOption("Back")){}
         Menu(std::string InLabel, MenuOption InBack) : Menu(InLabel, {}, InBack){}
         Menu(std::string InLabel, std::vector<MenuOption> InOptions) : Menu(InLabel, InOptions, MenuOption("Back")){}

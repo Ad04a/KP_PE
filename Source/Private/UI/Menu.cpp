@@ -42,7 +42,7 @@ void UI::Menu::ChooseOption(int OptionNum)
 
 std::string UI::Menu::ToString() const
 {
-    std::string TempString = Label() +" menu:\n";
+    std::string TempString = Label() +":\n";
     for(size_t i=0; i<Options().size(); i++)
     {
         TempString += "[" + std::to_string(i+1)+ "]" + Options()[i].ToString() + "\n";

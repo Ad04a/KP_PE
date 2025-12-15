@@ -2,15 +2,15 @@
 #include "Publisher.h"
 
 //#include "Property.h"
-#include "System/Dispatcher.h"
-#include "System/SystemHandlers.h"
+#include "SystemUtils/System.h"
+//#include "SystemUtils/SystemHandlers.h"
 
 #include <iostream>
 //#include <vector>
 //#include <string>
 
-#include "UI/Menu.h"
-#include "Misc/Delegate.h"
+//#include "UI/Menu.h"
+//#include "Misc/Delegate.h"
 
 void EnterPublisher(int Num)
 {
@@ -44,46 +44,17 @@ void HandlePublisherState(std::string PublisherName, std::istream& InStream, std
 
 int main()
 {
+    //UI::Menu MainMenu("Main Menu", UI::MenuOption("Exit"));
 
-    UI::Menu MainMenu("TempMain", UI::MenuOption("Exit"));
+    //MainMenu.Initiate(&std::cin, &std::cout);
 
-    UI::Menu PublisherMenu("Publisher");
-    PublisherMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
-    UI::Menu RegistryMenu("Publisher Registry");
-    RegistryMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
-    UI::Menu StoreMenu("Book Store");
-    StoreMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
+    SystemUtils::System ManaginSystem;
+    ManaginSystem.Start(&std::cin, &std::cout);
 
-    UI::MenuOption PublisherMenuOption("Publisher Menu");
-    PublisherMenuOption.OnSelect().Add(&PublisherMenu, &UI::Menu::Initiate);
-    UI::MenuOption RegistryMenuOption("Publisher Registry Menu");
-    RegistryMenuOption.OnSelect().Add(&RegistryMenu, &UI::Menu::Initiate);
-    UI::MenuOption StoreMenuOption("Book Store Menu");
-    StoreMenuOption.OnSelect().Add(&StoreMenu, &UI::Menu::Initiate);
-
-    MainMenu.Options = {RegistryMenuOption, PublisherMenuOption, StoreMenuOption};
-
-    MainMenu.Initiate(&std::cin, &std::cout);
-
-    System::BookStoreHandler b;
-    System::PublisherHandler p;
-    System::RegistryHandler r;
-
-    System::Dispatcher ManaginSystem;
-
-    ManaginSystem.AddOption("registry", r);
-    ManaginSystem.AddOption("publisher", p);
-    ManaginSystem.AddOption("store", b);
-
-    //ManaginSystem.Dispatch("option", std::cin, std::cout);
-    
-
-    UI::MenuOption Back;
-    
 
     //b1.Enter(std::cin, std::cout);
 
-    Publisher br, br2;
+    //Publisher br, br2;
     //br.Enter(std::cin, std::cout);
 
     /*std::ofstream f(IntermediateFolder + "input.txt");
