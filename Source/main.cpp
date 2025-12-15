@@ -9,17 +9,20 @@
 //#include <vector>
 //#include <string>
 
-#include "UI/MenuOption.h"
+#include "UI/Menu.h"
 #include "Misc/Delegate.h"
 
-void EnterPublisher()
+void EnterPublisher(int Num)
 {
-
+    std::cout<<"Num: "<<Num;
 }
 
-void RegisterNewPublisher()
+void RegisterNewPublisher(int Num)
 {
-
+    for(int i=0;i<Num;i++)
+    {
+        std::cout<<" - ";
+    }
 }
 
 void HandlePublisherState(std::string PublisherName, std::istream& InStream, std::ostream& OutStream)
@@ -42,7 +45,25 @@ void HandlePublisherState(std::string PublisherName, std::istream& InStream, std
 int main()
 {
 
-    Delegate d;
+    UI::Menu MainMenu("TempMain", UI::MenuOption("Exit"));
+
+    UI::Menu PublisherMenu("Publisher");
+    PublisherMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
+    UI::Menu RegistryMenu("Publisher Registry");
+    RegistryMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
+    UI::Menu StoreMenu("Book Store");
+    StoreMenu.Back().OnSelect().Add(&MainMenu, &UI::Menu::Initiate);
+
+    UI::MenuOption PublisherMenuOption("Publisher Menu");
+    PublisherMenuOption.OnSelect().Add(&PublisherMenu, &UI::Menu::Initiate);
+    UI::MenuOption RegistryMenuOption("Publisher Registry Menu");
+    RegistryMenuOption.OnSelect().Add(&RegistryMenu, &UI::Menu::Initiate);
+    UI::MenuOption StoreMenuOption("Book Store Menu");
+    StoreMenuOption.OnSelect().Add(&StoreMenu, &UI::Menu::Initiate);
+
+    MainMenu.Options = {RegistryMenuOption, PublisherMenuOption, StoreMenuOption};
+
+    MainMenu.Initiate(&std::cin, &std::cout);
 
     System::BookStoreHandler b;
     System::PublisherHandler p;
