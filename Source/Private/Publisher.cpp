@@ -1,5 +1,7 @@
 #include "Publisher.h"
 
+#include <limits>
+
 #include "Exceptions/InvalidPublisherException.h"
 
 Publisher::Publisher(std::string InName, std::string InAddress, std::string InPhone)
@@ -55,6 +57,7 @@ std::istream& Publisher::Input(std::istream& InStream)
 void Publisher::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     OutStream<<"Enter Publisher's name: ";
+    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(InStream, Name());
 
     OutStream<<"Enter Publisher's Address: ";

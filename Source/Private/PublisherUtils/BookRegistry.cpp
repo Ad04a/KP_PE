@@ -9,7 +9,7 @@ PublisherUtils::BookRegistry::BookRegistry(std::set<BookEntry> InRegistry)
 
 std::string PublisherUtils::BookRegistry::ToString() const
 {
-    if(Registry().size() <= 0) return "Book Catalog is empty!";
+    if(Registry().size() <= 0) return "Book Catalog is empty!\n";
     std::string TempStr = "Catalog: \n";
     for(PublisherUtils::BookEntry Book : Registry())
     {

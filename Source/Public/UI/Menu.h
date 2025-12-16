@@ -2,25 +2,28 @@
 
 #include <vector>
 #include <iostream>
+#include <memory>
+#include "Property.h"
 
-#include "UI/MenuOption.h"
+#include "Interfaces/Initiatable.h"
+#include "UI/MenuOptions.h"
 
 namespace UI
 {
-    class Menu : PROPERTY_CLASS(Menu), public DataUtils::IStringifiable
+    class Menu : PROPERTY_CLASS(Menu), public DataUtils::IStringifiable, public IInitiatable
     {
     public:
-        PROPERTY(std::string, Label, GET, PRIVATE_SET);
-        PROPERTY(std::vector<MenuOption>, Options, GET, SET);
-        PROPERTY(MenuOption, Back, GET, PRIVATE_SET);
+        PROPERTY(std::string, Label, GET, SET);
+        PROPERTY(std::vector<std::shared_ptr<MenuOption>>, Options, GET, SET);
+        PROPERTY(SimpleMenuOption, Back, GET, SET);
 
-        Menu() : Menu("Empty Menu", {}, MenuOption("Back")){}
-        Menu(std::string InLabel) : Menu(InLabel, {}, MenuOption("Back")){}
-        Menu(std::string InLabel, MenuOption InBack) : Menu(InLabel, {}, InBack){}
-        Menu(std::string InLabel, std::vector<MenuOption> InOptions) : Menu(InLabel, InOptions, MenuOption("Back")){}
-        Menu(std::string InLabel, std::vector<MenuOption> InOptions, MenuOption InBack);
+        Menu() : Menu("Empty Menu", {}, SimpleMenuOption("Back")){}
+        Menu(std::string InLabel) : Menu(InLabel, {}, SimpleMenuOption("Back")){}
+        Menu(std::string InLabel, SimpleMenuOption InBack) : Menu(InLabel, {}, InBack){}
+        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions) : Menu(InLabel, InOptions, SimpleMenuOption("Back")){}
+        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, SimpleMenuOption InBack);
 
-        void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr);
+        void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr) override;
 
         void ChooseOption(int OptionNum);
 

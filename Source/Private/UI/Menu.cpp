@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-UI::Menu::Menu(std::string InLabel, std::vector<MenuOption> InOptions, MenuOption InBack)
+UI::Menu::Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, SimpleMenuOption InBack)
 {
     Label = InLabel;
     Options = InOptions;
@@ -36,7 +36,7 @@ void UI::Menu::ChooseOption(int OptionNum)
         return;
     }
     OptionNum-=1;
-    Options()[OptionNum].Select();
+    Options()[OptionNum]->Select();
 
 }
 
@@ -45,7 +45,7 @@ std::string UI::Menu::ToString() const
     std::string TempString = Label() +":\n";
     for(size_t i=0; i<Options().size(); i++)
     {
-        TempString += "[" + std::to_string(i+1)+ "]" + Options()[i].ToString() + "\n";
+        TempString += "[" + std::to_string(i+1)+ "]" + Options()[i]->ToString() + "\n";
     }
     TempString += "[0]" + Back().ToString() + "\n";
     return TempString;

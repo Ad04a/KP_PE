@@ -44,12 +44,12 @@ void HandlePublisherState(std::string PublisherName, std::istream& InStream, std
 
 int main()
 {
-    //UI::Menu MainMenu("Main Menu", UI::MenuOption("Exit"));
+    //UI::Menu MainMenu("Main Menu", UI::StreamMenuOption("Exit"));
 
     //MainMenu.Initiate(&std::cin, &std::cout);
 
-    SystemUtils::System ManaginSystem;
-    ManaginSystem.Start(&std::cin, &std::cout);
+    SystemUtils::System ManaginSystem(&std::cin, &std::cout);
+    ManaginSystem.Start();
 
 
     //b1.Enter(std::cin, std::cout);
