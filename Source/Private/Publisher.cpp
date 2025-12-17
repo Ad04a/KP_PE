@@ -1,7 +1,9 @@
 #include "Publisher.h"
 
 #include <limits>
+#include <cstdlib>
 
+#include "UI/ProceedingWindow.h"
 #include "Exceptions/InvalidPublisherException.h"
 
 Publisher::Publisher(std::string InName, std::string InAddress, std::string InPhone)
@@ -10,6 +12,55 @@ Publisher::Publisher(std::string InName, std::string InAddress, std::string InPh
     Address = InAddress;
     Phone = InPhone;
 }
+
+
+void Publisher::Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr)
+{
+    std::istream& InStream = *InStreamPtr;
+    std::ostream& OutStream = *OutStreamPtr;
+    while ((InStream.get()) != '\n');
+    std::map<PublisherUtils::BookEntry, int> OrderBooks;
+    while (true)
+    {
+        system("cls");
+        OutStream<<"Current Order Books:\n";
+        for (const auto& OrderEntry : OrderBooks)
+        {
+            OutStream<<" - " + OrderEntry.first.HeldBook().Title() + ": " + std::to_string(OrderEntry.second) + " copies\n";
+        }
+        OutStream<<"Total price so far: ";
+        float TotalPrice = 0.0f;
+        for (const auto& OrderEntry : OrderBooks)
+        {
+            TotalPrice += OrderEntry.first.Price() * OrderEntry.second;
+        }
+        OutStream<<std::to_string(TotalPrice)<<"\n\nPublisher: " + Name() + "'s " << Books().ToString();
+        OutStream<<"\n Which book do you want to order from " + Name() + "? (Enter 'exit' to finish the order): ";
+        std::string BookISBN;
+        std::getline(InStream, BookISBN);
+        if(BookISBN == "exit") break;
+
+        auto It = std::find_if(Books().Registry().begin(), Books().Registry().end(), [&BookISBN](const PublisherUtils::BookEntry& Entry) {
+            return Entry.HeldBook().ISBN() == BookISBN;
+        });
+
+        if(It == Books().Registry().end())
+        {
+            OutStream<<"ISBN \"" + BookISBN + "\" not found in publisher's catalogue. Please enter a valid book title or 'exit' to finish the order\n";
+            UI::ProceedingWindow PW;
+            PW.Initiate(InStreamPtr, OutStreamPtr);
+            continue;
+        }
+
+        OutStream<<"Book \"" + BookISBN + "\" found with price " + std::to_string(It->Price()) + ". How many copies do you want to order?: ";
+        int Quantity;
+        InStream>>Quantity;
+        while ((InStream.get()) != '\n');
+        OrderBooks[*It] += Quantity;
+    
+    }
+}
+
 
 std::string Publisher::ToString() const
 {

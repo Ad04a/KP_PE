@@ -1,5 +1,8 @@
 #include "PublisherUtils/BookEntry.h"
 
+#include <format>
+
+
 PublisherUtils::BookEntry::BookEntry(Book InHeldBook, float InPrice)
 {
     HeldBook = InHeldBook;
@@ -8,7 +11,7 @@ PublisherUtils::BookEntry::BookEntry(Book InHeldBook, float InPrice)
 
 std::string PublisherUtils::BookEntry::ToString() const
 {
-    return HeldBook().ToString() + " - Price: " + std::to_string(Price());
+    return HeldBook().ToString() + " - Price: " + std::format("{:.2f}", Price());
 }
 
 std::ostream& PublisherUtils::BookEntry::Output(std::ostream& OutStream) const

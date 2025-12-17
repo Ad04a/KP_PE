@@ -31,9 +31,14 @@ namespace SystemUtils
         UI::Menu PublisherListMenu;
         void OpenRemovePublisherListMenu();
         void OpenViewPublisherListMenu();
+        void OpenOrderPublisherListMenu();
         void ConfigurePublisherListMenu(PublisherListAction Action);
 
         void UpdatePublisherList();
+        std::string GetPublisherMenuBackOptionLabel(PublisherListAction Action);
+        std::string GetPublisherSelectLabel(PublisherListAction Action);
+        using PublisherSelectMethodPtrType = void (System::*)(std::string);
+        PublisherSelectMethodPtrType GetPublisherSelectMethodPtr(PublisherListAction Action);
 
     public:              
         System(std::istream* InInStreamPtr, std::ostream* InOutStreamPtr);
@@ -42,6 +47,7 @@ namespace SystemUtils
         void ShowPublisherCatalogue(std::string PublisherName);
         void AddPublisher();
         void RemovePublisher(std::string PublisherName);
+        void MakeOrderFromPublisher(std::string PublisherName);
 
         void Start();
     };

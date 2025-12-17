@@ -6,6 +6,7 @@
 #include "UI/MenuOptions.h"
 #include "UI/ProceedingWindow.h"
 #include "UI/ConfirmationWindow.h"
+#include "UI/NumericEnterWindow.h"
 #include "Exceptions/FileException.h"
 #include "SystemUtils/Filepaths.h"
 
@@ -35,13 +36,12 @@ SystemUtils::System::System(std::istream* InInStreamPtr, std::ostream* InOutStre
     AddPublisherOption.OnSelect.Add(this, &SystemUtils::System::AddPublisher);
     UI::SimpleMenuOption RemovePublisherOption("Unregister a publisher");
     RemovePublisherOption.OnSelect.Add(this, &SystemUtils::System::OpenRemovePublisherListMenu);
-    UI::SimpleMenuOption EditPublisherOption("Edit a publisher");
     UI::SimpleMenuOption MakeOrderOption("Make an order from a publisher");
+    MakeOrderOption.OnSelect.Add(this, &SystemUtils::System::OpenOrderPublisherListMenu);
 
     MainMenu.Options = {std::make_shared<UI::SimpleMenuOption>(ShowPublishersOption), 
                         std::make_shared<UI::SimpleMenuOption>(AddPublisherOption), 
                         std::make_shared<UI::SimpleMenuOption>(RemovePublisherOption),
-                        std::make_shared<UI::SimpleMenuOption>(EditPublisherOption),
                         std::make_shared<UI::SimpleMenuOption>(MakeOrderOption)};
     //--------------------------Main Menu options-----------------------------------
 
@@ -174,6 +174,19 @@ void SystemUtils::System::RemovePublisher(std::string PublisherName)
     OpenRemovePublisherListMenu();
 }
 
+void SystemUtils::System::MakeOrderFromPublisher(std::string PublisherName)
+{
+    Publisher LoadedPublisher;
+    std::ifstream PublisherFile(SystemUtils::PublisherFolder() + PublisherName + ".txt");
+    if(!PublisherFile) throw FileException("Publisher file not found: " + SystemUtils::PublisherFolder() + PublisherName + ".txt");
+    PublisherFile>>LoadedPublisher;
+    PublisherFile.close();
+
+    LoadedPublisher.Initiate(InStreamPtr, OutStreamPtr);
+
+    OpenMainMenu();
+}
+
 void SystemUtils::System::OpenMainMenu() 
 { 
     MainMenu.Initiate(InStreamPtr, OutStreamPtr); 
@@ -191,17 +204,65 @@ void SystemUtils::System::OpenViewPublisherListMenu()
     PublisherListMenu.Initiate(InStreamPtr, OutStreamPtr); 
 }
 
+void SystemUtils::System::OpenOrderPublisherListMenu()
+{
+    ConfigurePublisherListMenu(OrderFromPublisherAction);
+    PublisherListMenu.Initiate(InStreamPtr, OutStreamPtr); 
+}
+
+
 void SystemUtils::System::ConfigurePublisherListMenu(PublisherListAction Action)
 {
     std::vector<std::shared_ptr<UI::MenuOption>> Options;
     for(std::string PublisherName : PublisherList)
     {
         auto NewOption = std::make_shared<UI::SimpleStringMenuOption>(PublisherName);
-        NewOption->OnSelect.Add(this, (Action == PublisherShowCatalogAction) ? &SystemUtils::System::ShowPublisherCatalogue : &SystemUtils::System::RemovePublisher);
+        NewOption->OnSelect.Add(this, GetPublisherSelectMethodPtr(Action));
         Options.push_back(NewOption);
     }
-    PublisherListMenu.Label = (Action == PublisherShowCatalogAction) ? "View Publisher Catalogue" : "Unregister Publisher";
+    PublisherListMenu.Label = GetPublisherSelectLabel(Action);
     PublisherListMenu.Options = Options;
-    PublisherListMenu.Back = UI::SimpleMenuOption((Action == PublisherShowCatalogAction) ?"Back" : "Cancel");
+    PublisherListMenu.Back = UI::SimpleMenuOption(GetPublisherMenuBackOptionLabel(Action));
     PublisherListMenu.Back().OnSelect.Add(this, &SystemUtils::System::OpenMainMenu);
+}
+
+std::string SystemUtils::System::GetPublisherMenuBackOptionLabel(PublisherListAction Action)
+{
+    switch (Action)
+    {
+    case PublisherShowCatalogAction:
+        return "Back";
+    default:
+        return "Cancel";
+    }
+}
+
+std::string SystemUtils::System::GetPublisherSelectLabel(PublisherListAction Action)
+{
+    switch (Action)
+    {
+    case PublisherShowCatalogAction:
+        return "View Catalogue";
+    case RemovePublisherAction:
+        return "Unregister";
+    case OrderFromPublisherAction:
+        return "Order From Publisher";
+    default:
+        return "Unknown Action";
+    }
+}
+
+SystemUtils::System::PublisherSelectMethodPtrType SystemUtils::System::GetPublisherSelectMethodPtr(PublisherListAction Action)
+{
+    switch (Action)
+    {
+    case PublisherShowCatalogAction:
+        return &SystemUtils::System::ShowPublisherCatalogue;
+    case RemovePublisherAction:
+        return &SystemUtils::System::RemovePublisher;
+    case OrderFromPublisherAction:
+        return &SystemUtils::System::MakeOrderFromPublisher;
+    default:
+        return nullptr;
+    }
 }

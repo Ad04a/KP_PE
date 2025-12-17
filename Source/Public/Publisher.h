@@ -3,10 +3,10 @@
 #include <regex>
 
 #include "Exceptions/InvalidPhoneException.h"
-
+#include "Interfaces/Initiatable.h"
 #include "PublisherUtils/BookRegistry.h"
 
-class Publisher : PROPERTY_CLASS(Publisher), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+class Publisher : PROPERTY_CLASS(Publisher), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable, public IInitiatable
 {
 
 public:
@@ -31,15 +31,10 @@ public:
     Publisher(std::string InName, std::string InAddress, std::string InPhone);
     Publisher(std::string InName, std::string InAddress, std::string InPhone, PublisherUtils::BookRegistry InBooks) : Publisher(InName, InAddress, InPhone) {Books = InBooks;};
 
-    std::map<Book, float> GetBooks();
-    //void SetBooks(map<Book, int> InBooks);
-    void AddBook(Book InBook, float InPrice);
-    void ClearBooks();
-
-    float MakeOrder();
 
     virtual std::string ToString() const override;
     virtual std::ostream& Output(std::ostream& OutStream) const override;
     virtual std::istream& Input(std::istream& InStream) override;
     virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
+    virtual void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr) override;
 };

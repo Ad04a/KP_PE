@@ -8,8 +8,8 @@ void UI::ProceedingWindow::Initiate(std::istream* InStreamPtr, std::ostream* Out
     std::ostream& OutStream = *OutStreamPtr;
 
     std::string UserInput;
+    InStream.sync();
     OutStream<<Label;
-    InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::getline(InStream, UserInput);
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     OnSelect.Broadcast();
 }
