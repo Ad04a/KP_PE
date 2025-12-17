@@ -8,7 +8,7 @@ namespace Data
 {
     namespace PublisherUtils
     {
-        class BookEntry : PROPERTY_CLASS(BookEntry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+        class BookEntry : PROPERTY_CLASS(BookEntry), public Utils::DataUnit
         {
         
         public:

@@ -2,14 +2,14 @@
 
 #include <limits>
 
-Data::Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, DataUtils::Date InPrintDate, DataUtils::Date InReleaseDate)
+Data::Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Data::Date InPrintDate, Data::Date InReleaseDate)
 {
     Title = InTitle;
     ISBN = InISBN;
     Authors = InAuthors;
     PrintDate = InPrintDate;
     ReleaseDate = InReleaseDate;
-    ApproveDate = DataUtils::Date();
+    ApproveDate = Data::Date();
 }
 
 bool Data::Book::IsApproved() const
@@ -102,7 +102,7 @@ void Data::Book::Enter(std::istream& InStream, std::ostream& OutStream)
         try
         {
             OutStream<<"Enter book's release date: \n";
-            DataUtils::Date d = DataUtils::Date();
+            Data::Date d = Data::Date();
             d.Enter(InStream, OutStream);
             ReleaseDate = d;
         }
@@ -129,7 +129,7 @@ void Data::Book::Enter(std::istream& InStream, std::ostream& OutStream)
             try
             {
                 OutStream<<"Enter book's Approve date: \n";
-                DataUtils::Date d = DataUtils::Date();
+                Data::Date d = Data::Date();
                 d.Enter(InStream, OutStream);
                 ApproveDate = d;
             }

@@ -10,7 +10,7 @@
 
 namespace UI
 {
-    class Menu : PROPERTY_CLASS(Menu), public DataUtils::IStringifiable, public UI::IInitiatable
+    class Menu : PROPERTY_CLASS(Menu), public Data::Utils::IStringifiable, public UI::IInitiatable
     {
     public:
         PROPERTY(std::string, Label, GET, SET);

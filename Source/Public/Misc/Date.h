@@ -2,14 +2,11 @@
 
 #include "Property.h"
 
-#include "Interfaces/Misc/Outputable.h"
-#include "Interfaces/Misc/Stringifiable.h"
-#include "Interfaces/Misc/Inputable.h"
-#include "Interfaces/Misc/Enterable.h"
+#include "Interfaces/DataUtils/DataUnit.h"
 
-namespace DataUtils
+namespace Data
 {
-    class Date : PROPERTY_CLASS(Date), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+    class Date : PROPERTY_CLASS(Date), public Utils::DataUnit
     {   
     public:
         static bool IsLeapYear(int InYear);

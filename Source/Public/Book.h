@@ -12,7 +12,7 @@
 
 namespace Data
 {
-    class Book : PROPERTY_CLASS(Book), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+    class Book : PROPERTY_CLASS(Book), public Utils::DataUnit
     {
 
     public:
@@ -33,8 +33,8 @@ namespace Data
             }
         );
         PROPERTY(std::vector<std::string>, Authors, GET, PRIVATE_SET);
-        PROPERTY(DataUtils::Date, PrintDate, GET, PRIVATE_SET);
-        PROPERTY(DataUtils::Date, ReleaseDate, GET, 
+        PROPERTY(Data::Date, PrintDate, GET, PRIVATE_SET);
+        PROPERTY(Data::Date, ReleaseDate, GET, 
             PRIVATE_SET
             {
                 if(VALUE.IsValid() == false) return;
@@ -44,7 +44,7 @@ namespace Data
                 FIELD = VALUE;
             }
         );
-        PROPERTY(DataUtils::Date, ApproveDate, GET, 
+        PROPERTY(Data::Date, ApproveDate, GET, 
             SET
             {
                 if(SELF->IsApproved() || VALUE.IsValid() == false) return;
@@ -56,8 +56,8 @@ namespace Data
         );
 
         Book(){}
-        Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, DataUtils::Date InPrintDate, DataUtils::Date InReleaseDate);
-        Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, DataUtils::Date InPrintDate, DataUtils::Date InReleaseDate, DataUtils::Date InApproveDate) 
+        Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Data::Date InPrintDate, Data::Date InReleaseDate);
+        Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Data::Date InPrintDate, Data::Date InReleaseDate, Data::Date InApproveDate) 
         : Book(InTitle, InISBN, InAuthors, InPrintDate, InReleaseDate){ApproveDate = InApproveDate;}
 
         bool IsApproved() const;

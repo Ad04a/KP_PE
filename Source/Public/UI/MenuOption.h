@@ -3,12 +3,12 @@
 #include <iostream>
 
 #include "Misc/Delegate.h"
-#include "Interfaces/Misc/Stringifiable.h"
+#include "Interfaces/DataUtils/Stringifiable.h"
 
 namespace UI
 {
 
-    class MenuOption : public DataUtils::IStringifiable
+    class MenuOption : public Data::Utils::IStringifiable
     {
     protected:
         std::string Label;
@@ -25,7 +25,7 @@ namespace UI
     class MenuOptionImpl : public MenuOption
     {
     public:   
-        using MenuDelegateSignature = DataUtils::Delegate<ReturnType, ParamTypes...>;
+        using MenuDelegateSignature = Data::Utils::Delegate<ReturnType, ParamTypes...>;
         MenuDelegateSignature OnSelect;
         MenuOptionImpl() : MenuOptionImpl("Empty option"){}
         MenuOptionImpl(std::string InLabel): MenuOption(InLabel){}

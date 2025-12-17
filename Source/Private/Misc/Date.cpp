@@ -2,7 +2,7 @@
 
 #include "Exceptions/InvalidDateException.h"
 
-bool DataUtils::Date::IsLeapYear(int InYear)
+bool Data::Date::IsLeapYear(int InYear)
 {
     if (InYear % 400 == 0) return true;
     if (InYear % 100 == 0) return false;
@@ -10,7 +10,7 @@ bool DataUtils::Date::IsLeapYear(int InYear)
     return false;
 }
 
-int DataUtils::Date::GetDaysForMonth(int InMonth, bool bInIsLeapYear)
+int Data::Date::GetDaysForMonth(int InMonth, bool bInIsLeapYear)
 {
     switch(InMonth)
     {
@@ -20,52 +20,52 @@ int DataUtils::Date::GetDaysForMonth(int InMonth, bool bInIsLeapYear)
     }
 }
 
-bool DataUtils::Date::IsValidYear(int InYear)
+bool Data::Date::IsValidYear(int InYear)
 {
     return InYear >= 0;
 }
 
-bool DataUtils::Date::IsValidMonth(int InMonth)
+bool Data::Date::IsValidMonth(int InMonth)
 {
     return InMonth >= 1 && InMonth <= 12;
 }
 
-bool DataUtils::Date::IsValidDayForMonth(int InDay, int InMonth, bool bInIsLeapYear)
+bool Data::Date::IsValidDayForMonth(int InDay, int InMonth, bool bInIsLeapYear)
 {
     int MaxDays = GetDaysForMonth(InMonth, bInIsLeapYear);
     return InDay >= 1 && InDay <= MaxDays;
 }
 
-DataUtils::Date DataUtils::Date::Now()
+Data::Date Data::Date::Now()
 {
-    return DataUtils::Date(2025,12,11);
+    return Data::Date(2025,12,11);
 }
 
-DataUtils::Date::Date(int InYear, int InMonth, int InDay)
+Data::Date::Date(int InYear, int InMonth, int InDay)
 {
     Year = InYear;
     Month = InMonth;
     Day = InDay;
 }
 
-bool DataUtils::Date::IsValid() const
+bool Data::Date::IsValid() const
 {
     return IsValidYear(Year) && IsValidMonth(Month) && IsValidDayForMonth(Day, Month, IsLeapYear(Year)); 
 }
 
-std::string DataUtils::Date::ToString() const
+std::string Data::Date::ToString() const
 {
     std::string Out = std::to_string(Year) + '.' + std::to_string(Month) + '.' + std::to_string(Day);
     return Out;
 }
 
-std::ostream& DataUtils::Date::Output(std::ostream& OutStream) const
+std::ostream& Data::Date::Output(std::ostream& OutStream) const
 {
     OutStream << "D " << Year() <<" "<< Month()<<" " << Day()<<" ";
     return OutStream;
 }
 
-std::istream& DataUtils::Date::Input(std::istream& InStream)
+std::istream& Data::Date::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
@@ -84,7 +84,7 @@ std::istream& DataUtils::Date::Input(std::istream& InStream)
     return InStream;
 }
 
-void DataUtils::Date::Enter(std::istream& InStream, std::ostream& OutStream)
+void Data::Date::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     
     int InYear, InMonth, InDay;
@@ -118,22 +118,22 @@ void DataUtils::Date::Enter(std::istream& InStream, std::ostream& OutStream)
     Day = InDay;
 }
 
-bool DataUtils::Date::operator>( const DataUtils::Date& b) const
+bool Data::Date::operator>( const Data::Date& b) const
 {
     return (Year() >= b.Year()) && (Month() >= b.Month()) && (Day() > b.Day());
 }
 
-bool DataUtils::Date::operator<(const DataUtils::Date& b) const
+bool Data::Date::operator<(const Data::Date& b) const
 {
     return (Year() <= b.Year()) && (Month() <= b.Month()) && (Day() < b.Day());
 }
 
-bool DataUtils::Date::operator==(const DataUtils::Date& b) const
+bool Data::Date::operator==(const Data::Date& b) const
 {
     return (Year() == b.Year()) && (Month() == b.Month()) && (Day() == b.Day());
 }
 
-bool DataUtils::Date::operator!=(const DataUtils::Date& b) const
+bool Data::Date::operator!=(const Data::Date& b) const
 {
     return !(*this == b);
 }

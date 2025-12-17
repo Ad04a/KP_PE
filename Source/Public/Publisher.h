@@ -8,13 +8,10 @@
 
 namespace Data
 {
-    class Publisher : PROPERTY_CLASS(Publisher), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable, public UI::IInitiatable
+    class Publisher : PROPERTY_CLASS(Publisher), public Utils::DataUnit, public UI::IInitiatable
     {
 
     public:
-
-        PROPERTY(int, hui, GET{return 5;});
-
         PROPERTY(std::string, Name, GET, PRIVATE_SET);
         PROPERTY(std::string, Address, GET, PRIVATE_SET);
         PROPERTY(std::string, Phone, GET, 
