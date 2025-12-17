@@ -4,33 +4,32 @@
 
 #include "Exceptions/InvalidBookEntryException.h"
 
-
-namespace PublisherUtils
+namespace Data
 {
-    
-    class BookEntry : PROPERTY_CLASS(BookEntry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+    namespace PublisherUtils
     {
-    
-    public:
-        BookEntry(){};
-        BookEntry(Book InHeldBook, float InPrice);
-
-        PROPERTY(Book, HeldBook, GET, PRIVATE_SET);
-        PROPERTY(float, Price, GET, 
-            PRIVATE_SET
-            {
-                if(VALUE <= -1) throw InvalidBookEntryException("Book's price must be >= 0");
-                FIELD = VALUE;
-            }
-        );    
+        class BookEntry : PROPERTY_CLASS(BookEntry), public DataUtils::IOutputable, public DataUtils::IStringifiable, public DataUtils::IInputable, public DataUtils::IEnterable
+        {
         
-        virtual std::string ToString() const override;
-        virtual std::ostream& Output(std::ostream& OutStream) const override;
-        virtual std::istream& Input(std::istream& InStream) override;
-        virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
+        public:
+            BookEntry(){};
+            BookEntry(Book InHeldBook, float InPrice);
 
-        bool operator<(const BookEntry& Other) const;
-    };
+            PROPERTY(Book, HeldBook, GET, PRIVATE_SET);
+            PROPERTY(float, Price, GET, 
+                PRIVATE_SET
+                {
+                    if(VALUE <= -1) throw Exceptions::InvalidBookEntryException("Book's price must be >= 0");
+                    FIELD = VALUE;
+                }
+            );    
+            
+            virtual std::string ToString() const override;
+            virtual std::ostream& Output(std::ostream& OutStream) const override;
+            virtual std::istream& Input(std::istream& InStream) override;
+            virtual void Enter(std::istream& InStream, std::ostream& OutStream) override;
 
-    
+            bool operator<(const BookEntry& Other) const;
+        };
+    }
 }

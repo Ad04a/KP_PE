@@ -3,10 +3,13 @@
 #include <stdexcept>
 #include <string>
 
-class InvalidBookException : public std::runtime_error
+namespace Exceptions
 {
-    public:
+    class InvalidBookException : public std::runtime_error
+    {
+        public:
 
-    InvalidBookException() : runtime_error("Invalid Book"){};
-    InvalidBookException(std::string InMessage) : runtime_error("Invalid Book: " + InMessage){};
-};
+        InvalidBookException() : runtime_error("Invalid Book"){};
+        InvalidBookException(std::string InMessage) : runtime_error("Invalid Book: " + InMessage){};
+    };
+}

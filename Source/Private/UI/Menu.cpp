@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-UI::Menu::Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, SimpleMenuOption InBack)
+UI::Menu::Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, Options::SimpleMenuOption InBack)
 {
     Label = InLabel;
     Options = InOptions;

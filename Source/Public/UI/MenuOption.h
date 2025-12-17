@@ -25,7 +25,7 @@ namespace UI
     class MenuOptionImpl : public MenuOption
     {
     public:   
-        using MenuDelegateSignature = Delegate<ReturnType, ParamTypes...>;
+        using MenuDelegateSignature = DataUtils::Delegate<ReturnType, ParamTypes...>;
         MenuDelegateSignature OnSelect;
         MenuOptionImpl() : MenuOptionImpl("Empty option"){}
         MenuOptionImpl(std::string InLabel): MenuOption(InLabel){}

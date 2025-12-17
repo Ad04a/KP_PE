@@ -25,7 +25,7 @@ namespace SystemUtils
         std::istream* InStreamPtr;
         std::ostream* OutStreamPtr;
 
-        UI::Menu MainMenu = UI::Menu("Main Menu", UI::SimpleMenuOption("Exit"));
+        UI::Menu MainMenu = UI::Menu("Main Menu", UI::Options::SimpleMenuOption("Exit"));
         void OpenMainMenu();
 
         UI::Menu PublisherListMenu;

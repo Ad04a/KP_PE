@@ -5,7 +5,7 @@
 
 namespace UI
 {
-    class ProceedingWindow : public IInitiatable, public MenuOptionImpl<void>
+    class ProceedingWindow : public UI::IInitiatable, public MenuOptionImpl<void>
     {
     public:
         ProceedingWindow() : ProceedingWindow("Press anything to continue...") {}

@@ -6,14 +6,17 @@
 
 namespace UI
 {
-    class SimpleStringMenuOption : public MenuOptionImpl<void, std::string> 
-    {   
+    namespace Options
+    {
+        class SimpleStringMenuOption : public MenuOptionImpl<void, std::string> 
+        {   
 
-    public:  
-        SimpleStringMenuOption() : SimpleStringMenuOption("Empty option"){}
-        SimpleStringMenuOption(std::string InLabel) : MenuOptionImpl<void, std::string>(InLabel) {}
-        virtual void Select() override { OnSelect.Broadcast(Label);}
+        public:  
+            SimpleStringMenuOption() : SimpleStringMenuOption("Empty option"){}
+            SimpleStringMenuOption(std::string InLabel) : MenuOptionImpl<void, std::string>(InLabel) {}
+            virtual void Select() override { OnSelect.Broadcast(Label);}
 
-    };
+        };
+    }
 }
 

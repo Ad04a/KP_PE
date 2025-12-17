@@ -2,22 +2,22 @@
 
 #include <limits>
 
-Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, Date InPrintDate, Date InReleaseDate)
+Data::Book::Book(std::string InTitle, std::string InISBN, std::vector<std::string> InAuthors, DataUtils::Date InPrintDate, DataUtils::Date InReleaseDate)
 {
     Title = InTitle;
     ISBN = InISBN;
     Authors = InAuthors;
     PrintDate = InPrintDate;
     ReleaseDate = InReleaseDate;
-    ApproveDate = Date();
+    ApproveDate = DataUtils::Date();
 }
 
-bool Book::IsApproved() const
+bool Data::Book::IsApproved() const
 {
     return ApproveDate().IsValid();
 }
 
-std::string Book::ToString() const
+std::string Data::Book::ToString() const
 {
     std::string Out = Title() + " [ISBN:" + ISBN() 
     + " - Print: " + PrintDate().ToString() + " / Release: " + ReleaseDate().ToString() +" ("+ 
@@ -25,7 +25,7 @@ std::string Book::ToString() const
     return Out;
 }
 
-std::ostream& Book::Output(std::ostream& OutStream) const
+std::ostream& Data::Book::Output(std::ostream& OutStream) const
 {
     OutStream << "B " << Title().size()<<" "<< Title() << " " << ISBN() << " " << PrintDate() << ReleaseDate() << (IsApproved() ? "Y "  : "N ");
     if( IsApproved() ) OutStream << ApproveDate();
@@ -37,11 +37,11 @@ std::ostream& Book::Output(std::ostream& OutStream) const
     return OutStream;
 }
 
-std::istream& Book::Input(std::istream& InStream)
+std::istream& Data::Book::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
-    if(ID != 'B') throw InvalidBookException("Invalid data format");
+    if(ID != 'B') throw Exceptions::InvalidBookException("Invalid data format");
     
     int NumAuthors, ReadLenght;
 
@@ -73,7 +73,7 @@ std::istream& Book::Input(std::istream& InStream)
     return InStream;
 }
 
-void Book::Enter(std::istream& InStream, std::ostream& OutStream)
+void Data::Book::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     OutStream<<"Enter book's title: ";
     InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -102,7 +102,7 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
         try
         {
             OutStream<<"Enter book's release date: \n";
-            Date d = Date();
+            DataUtils::Date d = DataUtils::Date();
             d.Enter(InStream, OutStream);
             ReleaseDate = d;
         }
@@ -129,7 +129,7 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
             try
             {
                 OutStream<<"Enter book's Approve date: \n";
-                Date d = Date();
+                DataUtils::Date d = DataUtils::Date();
                 d.Enter(InStream, OutStream);
                 ApproveDate = d;
             }
@@ -160,7 +160,7 @@ void Book::Enter(std::istream& InStream, std::ostream& OutStream)
     Authors = InAuthors;
 }
 
-bool Book::operator<(const Book& Other) const
+bool Data::Book::operator<(const Book& Other) const
 {
     if (Title() != Other.Title())
         return Title() < Other.Title();

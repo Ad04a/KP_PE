@@ -3,28 +3,28 @@
 #include <format>
 
 
-PublisherUtils::BookEntry::BookEntry(Book InHeldBook, float InPrice)
+Data::PublisherUtils::BookEntry::BookEntry(Book InHeldBook, float InPrice)
 {
     HeldBook = InHeldBook;
     Price = InPrice;
 }
 
-std::string PublisherUtils::BookEntry::ToString() const
+std::string Data::PublisherUtils::BookEntry::ToString() const
 {
     return HeldBook().ToString() + " - Price: " + std::format("{:.2f}", Price());
 }
 
-std::ostream& PublisherUtils::BookEntry::Output(std::ostream& OutStream) const
+std::ostream& Data::PublisherUtils::BookEntry::Output(std::ostream& OutStream) const
 {
     OutStream << "E "<<HeldBook()<<Price<<" ";
     return OutStream;
 }
 
-std::istream& PublisherUtils::BookEntry::Input(std::istream& InStream)
+std::istream& Data::PublisherUtils::BookEntry::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
-    if(ID != 'E') throw InvalidBookEntryException("Invalid data format");
+    if(ID != 'E') throw Exceptions::InvalidBookEntryException("Invalid data format");
     
     
     float InPrice;
@@ -35,7 +35,7 @@ std::istream& PublisherUtils::BookEntry::Input(std::istream& InStream)
     return InStream;
 }
 
-void PublisherUtils::BookEntry::Enter(std::istream& InStream, std::ostream& OutStream)
+void Data::PublisherUtils::BookEntry::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     HeldBook().Enter(InStream, OutStream);
 
@@ -56,7 +56,7 @@ void PublisherUtils::BookEntry::Enter(std::istream& InStream, std::ostream& OutS
     }
 }
 
-bool PublisherUtils::BookEntry::operator<(const BookEntry& Other) const {
+bool Data::PublisherUtils::BookEntry::operator<(const BookEntry& Other) const {
     // order by name, then age
     if (Price() != Other.Price())
         return Price() < Other.Price();

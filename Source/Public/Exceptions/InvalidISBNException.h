@@ -3,10 +3,13 @@
 #include <stdexcept>
 #include <string>
 
-class InvalidISBNException : public std::runtime_error
+namespace Exceptions
 {
-    public:
+    class InvalidISBNException : public std::runtime_error
+    {
+        public:
 
-    InvalidISBNException() : runtime_error("Invalid ISBN"){};
-    InvalidISBNException(std::string InMessage) : runtime_error("Invalid ISBN: " + InMessage){};
-};
+        InvalidISBNException() : runtime_error("Invalid ISBN"){};
+        InvalidISBNException(std::string InMessage) : runtime_error("Invalid ISBN: " + InMessage){};
+    };
+}

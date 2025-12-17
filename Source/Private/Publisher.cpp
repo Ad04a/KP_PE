@@ -6,7 +6,7 @@
 #include "UI/ProceedingWindow.h"
 #include "Exceptions/InvalidPublisherException.h"
 
-Publisher::Publisher(std::string InName, std::string InAddress, std::string InPhone)
+Data::Publisher::Publisher(std::string InName, std::string InAddress, std::string InPhone)
 {
     Name = InName;
     Address = InAddress;
@@ -14,12 +14,12 @@ Publisher::Publisher(std::string InName, std::string InAddress, std::string InPh
 }
 
 
-void Publisher::Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr)
+void Data::Publisher::Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr)
 {
     std::istream& InStream = *InStreamPtr;
     std::ostream& OutStream = *OutStreamPtr;
     while ((InStream.get()) != '\n');
-    std::map<PublisherUtils::BookEntry, int> OrderBooks;
+    std::map<Data::PublisherUtils::BookEntry, int> OrderBooks;
     while (true)
     {
         system("cls");
@@ -62,22 +62,22 @@ void Publisher::Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr)
 }
 
 
-std::string Publisher::ToString() const
+std::string Data::Publisher::ToString() const
 {
     return "Publisher: " + Name() + "\n - Address: " + Address() + "\n - Phone: " + Phone() + "\n - " + Books().ToString();
 }
 
-std::ostream& Publisher::Output(std::ostream& OutStream) const
+std::ostream& Data::Publisher::Output(std::ostream& OutStream) const
 {
     OutStream<<"P "<<Name().size()<<" "<<Name()<<" "<<Address().size()<<" "<<Address()<<" "<<Phone().size()<<" "<<Phone()<<" "<<Books();
     return OutStream;
 }
 
-std::istream& Publisher::Input(std::istream& InStream)
+std::istream& Data::Publisher::Input(std::istream& InStream)
 {
     char ID;
     InStream>>ID;
-    if(ID != 'P') throw InvalidPublisherException("Invalid data format");
+    if(ID != 'P') throw Exceptions::InvalidPublisherException("Invalid data format");
 
     int ReadLenght;
     InStream >> ReadLenght>>std::ws;
@@ -105,7 +105,7 @@ std::istream& Publisher::Input(std::istream& InStream)
     return InStream;
 }
 
-void Publisher::Enter(std::istream& InStream, std::ostream& OutStream)
+void Data::Publisher::Enter(std::istream& InStream, std::ostream& OutStream)
 {
     OutStream<<"Enter Publisher's name: ";
     InStream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

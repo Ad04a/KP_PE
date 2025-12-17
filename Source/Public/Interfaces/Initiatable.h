@@ -2,9 +2,14 @@
 
 #include "iostream"
 
-class IInitiatable
+namespace UI
 {
-protected:
-    virtual void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr) = 0;
+    class IInitiatable
+    {
+    protected:
+        virtual void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr) = 0;
 
-};
+    };    
+}
+
+

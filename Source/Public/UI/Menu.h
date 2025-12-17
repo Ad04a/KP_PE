@@ -10,18 +10,18 @@
 
 namespace UI
 {
-    class Menu : PROPERTY_CLASS(Menu), public DataUtils::IStringifiable, public IInitiatable
+    class Menu : PROPERTY_CLASS(Menu), public DataUtils::IStringifiable, public UI::IInitiatable
     {
     public:
         PROPERTY(std::string, Label, GET, SET);
         PROPERTY(std::vector<std::shared_ptr<MenuOption>>, Options, GET, SET);
-        PROPERTY(SimpleMenuOption, Back, GET, SET);
+        PROPERTY(Options::SimpleMenuOption, Back, GET, SET);
 
-        Menu() : Menu("Empty Menu", {}, SimpleMenuOption("Back")){}
-        Menu(std::string InLabel) : Menu(InLabel, {}, SimpleMenuOption("Back")){}
-        Menu(std::string InLabel, SimpleMenuOption InBack) : Menu(InLabel, {}, InBack){}
-        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions) : Menu(InLabel, InOptions, SimpleMenuOption("Back")){}
-        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, SimpleMenuOption InBack);
+        Menu() : Menu("Empty Menu", {}, Options::SimpleMenuOption("Back")){}
+        Menu(std::string InLabel) : Menu(InLabel, {}, Options::SimpleMenuOption("Back")){}
+        Menu(std::string InLabel, Options::SimpleMenuOption InBack) : Menu(InLabel, {}, InBack){}
+        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions) : Menu(InLabel, InOptions, Options::SimpleMenuOption("Back")){}
+        Menu(std::string InLabel, std::vector<std::shared_ptr<MenuOption>> InOptions, Options::SimpleMenuOption InBack);
 
         void Initiate(std::istream* InStreamPtr, std::ostream* OutStreamPtr) override;
 

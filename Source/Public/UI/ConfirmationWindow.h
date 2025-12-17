@@ -5,7 +5,7 @@
 
 namespace UI
 {
-    class ConfirmationWindow : public IInitiatable, public MenuOptionImpl<void, bool>
+    class ConfirmationWindow : public UI::IInitiatable, public MenuOptionImpl<void, bool>
     {
     public:
         ConfirmationWindow() : ConfirmationWindow("Are you sure? [Y/N]: ") {}

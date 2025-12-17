@@ -6,7 +6,6 @@
 #include "UI/MenuOptions.h"
 #include "UI/ProceedingWindow.h"
 #include "UI/ConfirmationWindow.h"
-#include "UI/NumericEnterWindow.h"
 #include "Exceptions/FileException.h"
 #include "SystemUtils/Filepaths.h"
 
@@ -20,7 +19,7 @@ SystemUtils::System::System(std::istream* InInStreamPtr, std::ostream* InOutStre
     {
         std::ofstream PublisherEntry(PublisherEntryFile());
         if (!PublisherEntry) {
-            throw FileException("Can not create file: " + PublisherEntryFile());
+            throw Exceptions::FileException("Can not create file: " + PublisherEntryFile());
         }
         PublisherEntry.close();
     }
@@ -30,19 +29,19 @@ SystemUtils::System::System(std::istream* InInStreamPtr, std::ostream* InOutStre
 
 
     //--------------------------Main Menu options-----------------------------------
-    UI::SimpleMenuOption ShowPublishersOption("Show list of publishers");
+    UI::Options::SimpleMenuOption ShowPublishersOption("Show list of publishers");
     ShowPublishersOption.OnSelect.Add(this, &SystemUtils::System::OpenViewPublisherListMenu);
-    UI::SimpleMenuOption AddPublisherOption("Register new publisher");
+    UI::Options::SimpleMenuOption AddPublisherOption("Register new publisher");
     AddPublisherOption.OnSelect.Add(this, &SystemUtils::System::AddPublisher);
-    UI::SimpleMenuOption RemovePublisherOption("Unregister a publisher");
+    UI::Options::SimpleMenuOption RemovePublisherOption("Unregister a publisher");
     RemovePublisherOption.OnSelect.Add(this, &SystemUtils::System::OpenRemovePublisherListMenu);
-    UI::SimpleMenuOption MakeOrderOption("Make an order from a publisher");
+    UI::Options::SimpleMenuOption MakeOrderOption("Make an order from a publisher");
     MakeOrderOption.OnSelect.Add(this, &SystemUtils::System::OpenOrderPublisherListMenu);
 
-    MainMenu.Options = {std::make_shared<UI::SimpleMenuOption>(ShowPublishersOption), 
-                        std::make_shared<UI::SimpleMenuOption>(AddPublisherOption), 
-                        std::make_shared<UI::SimpleMenuOption>(RemovePublisherOption),
-                        std::make_shared<UI::SimpleMenuOption>(MakeOrderOption)};
+    MainMenu.Options = {std::make_shared<UI::Options::SimpleMenuOption>(ShowPublishersOption), 
+                        std::make_shared<UI::Options::SimpleMenuOption>(AddPublisherOption), 
+                        std::make_shared<UI::Options::SimpleMenuOption>(RemovePublisherOption),
+                        std::make_shared<UI::Options::SimpleMenuOption>(MakeOrderOption)};
     //--------------------------Main Menu options-----------------------------------
 
 }
@@ -66,9 +65,9 @@ void SystemUtils::System::UpdatePublisherList()
 
 void SystemUtils::System::ShowPublisherCatalogue(std::string PublisherName)
 {
-    Publisher LoadedPublisher;
+    Data::Publisher LoadedPublisher;
     std::ifstream PublisherFile(SystemUtils::PublisherFolder() + PublisherName + ".txt");
-    if(!PublisherFile) throw FileException("Publisher file not found: " + SystemUtils::PublisherFolder() + PublisherName + ".txt");
+    if(!PublisherFile) throw Exceptions::FileException("Publisher file not found: " + SystemUtils::PublisherFolder() + PublisherName + ".txt");
     PublisherFile>>LoadedPublisher;
     PublisherFile.close();
 
@@ -80,7 +79,7 @@ void SystemUtils::System::ShowPublisherCatalogue(std::string PublisherName)
 
 void SystemUtils::System::AddPublisher()
 {
-    Publisher NewPublisher;
+    Data::Publisher NewPublisher;
     NewPublisher.Enter(*InStreamPtr, *OutStreamPtr);
     std::ofstream PublisherFile(SystemUtils::PublisherEntryFile(), std::ios::app);
 
@@ -176,9 +175,9 @@ void SystemUtils::System::RemovePublisher(std::string PublisherName)
 
 void SystemUtils::System::MakeOrderFromPublisher(std::string PublisherName)
 {
-    Publisher LoadedPublisher;
+    Data::Publisher LoadedPublisher;
     std::ifstream PublisherFile(SystemUtils::PublisherFolder() + PublisherName + ".txt");
-    if(!PublisherFile) throw FileException("Publisher file not found: " + SystemUtils::PublisherFolder() + PublisherName + ".txt");
+    if(!PublisherFile) throw Exceptions::FileException("Publisher file not found: " + SystemUtils::PublisherFolder() + PublisherName + ".txt");
     PublisherFile>>LoadedPublisher;
     PublisherFile.close();
 
@@ -216,13 +215,13 @@ void SystemUtils::System::ConfigurePublisherListMenu(PublisherListAction Action)
     std::vector<std::shared_ptr<UI::MenuOption>> Options;
     for(std::string PublisherName : PublisherList)
     {
-        auto NewOption = std::make_shared<UI::SimpleStringMenuOption>(PublisherName);
+        auto NewOption = std::make_shared<UI::Options::SimpleStringMenuOption>(PublisherName);
         NewOption->OnSelect.Add(this, GetPublisherSelectMethodPtr(Action));
         Options.push_back(NewOption);
     }
     PublisherListMenu.Label = GetPublisherSelectLabel(Action);
     PublisherListMenu.Options = Options;
-    PublisherListMenu.Back = UI::SimpleMenuOption(GetPublisherMenuBackOptionLabel(Action));
+    PublisherListMenu.Back = UI::Options::SimpleMenuOption(GetPublisherMenuBackOptionLabel(Action));
     PublisherListMenu.Back().OnSelect.Add(this, &SystemUtils::System::OpenMainMenu);
 }
 
