@@ -1,6 +1,6 @@
 #include "PublisherUtils/BookEntry.h"
 
-#include <format>
+    #include <format>
 
 
 Data::PublisherUtils::BookEntry::BookEntry(Book InHeldBook, float InPrice)
